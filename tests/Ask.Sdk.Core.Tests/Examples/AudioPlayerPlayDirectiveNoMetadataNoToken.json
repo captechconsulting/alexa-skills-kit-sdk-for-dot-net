@@ -1,0 +1,15 @@
+{
+  "directives": [
+    {
+      "playBehavior": "ENQUEUE",
+      "audioItem": {
+        "stream": {
+          "url": "https://url/to/audiosource",
+          "token": "audio token",
+          "offsetInMilliseconds": 10000
+        }
+      },
+      "type": "AudioPlayer.Play"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "outputSpeech": {
+    "type": "SSML",
+    "ssml": "<speak>HelloWorld!</speak>"
+  },
+  "reprompt": {
+    "outputSpeech": {
+      "type": "SSML",
+      "ssml": "<speak>HelloWorld!</speak>"
+    }
+  },
+  "shouldEndSession": false,
+  "directives": [
+    {
+      "type": "Display.RenderTemplate",
+      "template": {
+        "type": "BodyTemplate1",
+        "token": "token",
+        "backButton": "VISIBLE",
+        "backgroundImage": {
+          "contentDescription": "description",
+          "sources": [
+            {
+              "url": "https://url/to/imagesource",
+              "size": "MEDIUM",
+              "widthPixels": 100,
+              "heightPixels": 100
+            }
+          ]
+        },
+        "title": "title",
+        "textContent": {
+          "primaryText": {
+            "text": "primary text",
+            "type": "RichText"
+          },
+          "secondaryText": {
+            "text": "secondary text",
+            "type": "RichText"
+          },
+          "tertiaryText": {
+            "text": "teritiary text",
+            "type": "RichText"
+          }
+        }
+      }
+    },
+    {
+      "type": "Hint",
+      "hint": {
+        "type": "PlainText",
+        "text": "This is plainText hint"
+      }
+    }
+  ]
+}

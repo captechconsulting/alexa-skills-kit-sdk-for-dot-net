@@ -1,0 +1,10 @@
+{
+  "directives": [
+    {
+      "type": "VideoApp.Launch",
+      "videoItem": {
+        "source": "https://url/to/videosource"
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "directives": [
+    {
+      "playBehavior": "ENQUEUE",
+      "audioItem": {
+        "stream": {
+          "url": "https://url/to/audiosource",
+          "token": "audio token",
+          "expectedPreviousToken": "previous token",
+          "offsetInMilliseconds": 10000
+        },
+        "metadata": {
+          "title": "title",
+          "subtitle": "subtitle",
+          "art": {
+            "contentDescription": "description",
+            "sources": [ { "url": "fakeUrl.com" } ]
+          },
+          "backgroundImage": {
+            "contentDescription": "description",
+            "sources": [ { "url": "fakeUrl.com" } ]
+          }
+        }
+      },
+      "type": "AudioPlayer.Play"
+    }
+  ]
+}

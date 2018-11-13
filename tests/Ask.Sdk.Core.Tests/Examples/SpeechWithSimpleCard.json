@@ -1,0 +1,12 @@
+{
+  "outputSpeech": {
+    "type": "SSML",
+    "ssml": "<speak>HelloWorld!</speak>"
+  },
+  "card": {
+    "type": "Simple",
+    "title": "Card Title",
+    "content": "Card Content"
+  },
+  "shouldEndSession": false
+}

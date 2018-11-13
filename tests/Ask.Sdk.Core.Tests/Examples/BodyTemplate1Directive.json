@@ -1,0 +1,38 @@
+{
+  "directives": [
+    {
+      "type": "Display.RenderTemplate",
+      "template": {
+        "type": "BodyTemplate1",
+        "token": "token",
+        "backButton": "VISIBLE",
+        "backgroundImage": {
+          "contentDescription": "description",
+          "sources": [
+            {
+              "url": "https://url/to/imagesource",
+              "size": "MEDIUM",
+              "widthPixels": 100,
+              "heightPixels": 100
+            }
+          ]
+        },
+        "title": "title",
+        "textContent": {
+          "primaryText": {
+            "text": "primary text",
+            "type": "RichText"
+          },
+          "secondaryText": {
+            "text": "secondary text",
+            "type": "RichText"
+          },
+          "tertiaryText": {
+            "text": "tertiary text",
+            "type": "RichText"
+          }
+        }
+      }
+    }
+  ]
+}

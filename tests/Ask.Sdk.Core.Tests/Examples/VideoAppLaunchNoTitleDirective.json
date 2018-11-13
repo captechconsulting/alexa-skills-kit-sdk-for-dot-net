@@ -1,0 +1,11 @@
+{
+  "directives": [
+    {
+      "type": "VideoApp.Launch",
+      "videoItem": {
+        "source": "https://url/to/videosource",
+        "metadata": { "subtitle": "Secondary Title for Sample Video" }
+      }
+    }
+  ]
+}

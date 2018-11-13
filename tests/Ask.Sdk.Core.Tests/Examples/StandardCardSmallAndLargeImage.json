@@ -1,0 +1,11 @@
+{
+  "card": {
+    "type": "Standard",
+    "title": "Card Title",
+    "text": "Card Content",
+    "image": {
+      "smallImageUrl": "https://url-to-small-card-image...",
+      "largeImageUrl": "https://url-to-large-card-image..."
+    }
+  }
+}

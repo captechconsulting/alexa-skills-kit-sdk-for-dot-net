@@ -1,0 +1,11 @@
+{
+  "directives": [
+    {
+      "type": "Hint",
+      "hint": {
+        "type": "PlainText",
+        "text": "This is plainText hint"
+      }
+    }
+  ]
+}

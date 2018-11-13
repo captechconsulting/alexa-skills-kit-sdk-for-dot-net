@@ -1,0 +1,11 @@
+{
+  "canFullfillIntent": {
+    "canFulfill": "YES",
+    "slots": {
+      "foo": {
+        "canUnderstand": "MAYBE",
+        "canFulfill": "YES"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "directives": [
+    {
+      "type": "Dialog.ElicitSlot",
+      "slotToElicit": "slotName",
+      "updatedIntent": {
+        "name": "intentName",
+        "confirmationStatus": "NONE",
+        "slots": {
+          "slot1": {
+            "name": "slot1",
+            "value": "value1",
+            "confirmationStatus": "NONE"
+          }
+        }
+      }
+    }
+  ]
+}

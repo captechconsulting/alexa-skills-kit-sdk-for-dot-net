@@ -1,0 +1,18 @@
+{
+  "directives": [
+    {
+      "type": "Dialog.Delegate",
+      "updatedIntent": {
+        "name": "intentName",
+        "confirmationStatus": "NONE",
+        "slots": {
+          "slot1": {
+            "name": "slot1",
+            "value": "value1",
+            "confirmationStatus": "NONE"
+          }
+        }
+      }
+    }
+  ]
+}

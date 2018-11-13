@@ -1,0 +1,54 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "hello persistent world",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "HelloWorldIntent",
+                    "slots": [],
+                  "samples": [
+                    "say hello",
+                    "say hello world",
+                    "hello",
+                    "say hi",
+                    "say hi world",
+                    "hi",
+                    "how are you"
+                  ]
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "DynamoDbIntent",
+                    "slots": [],
+                    "samples": [
+                        "have I called you",
+                        "when did I call you",
+                        "when did I call",
+                        "last time",
+                        "when was the last time i called you"
+                    ]
+                }
+            ],
+            "types": []
+        }
+    }
+}

@@ -1,0 +1,40 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "progressive response",
+      "intents": [
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "ProgressiveResponseIntent",
+          "slots": [],
+          "samples": [
+            "can you tell me something that is progressive",
+            "i want to hear a progressive response",
+            "say something progressively",
+            "hello progessive"
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}

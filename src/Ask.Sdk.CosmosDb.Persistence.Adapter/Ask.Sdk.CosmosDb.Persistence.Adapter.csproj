@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <PackageProjectUrl>https://github.com/captechconsulting/alexa-skills-kit-sdk-for-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/captechconsulting/alexa-skills-kit-sdk-for-dotnet</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>amazon echo alexa skills kit ask sdk cosmosdb</PackageTags>
+    <Description>CosmosDB persistence adapter package that contains a default implementation of ASK SDK Persistence Adapter for .Net Core.</Description>
+    <Authors>Nick Cipollina</Authors>
+    <Company>CaptechVentures, Inc.</Company>
+    <Product />
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <PackageLicenseUrl>https://github.com/captechconsulting/alexa-skills-kit-for-dot-net/blob/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ask.Sdk.Core\Ask.Sdk.Core.csproj" />
+    <ProjectReference Include="..\Ask.Sdk.Model\Ask.Sdk.Model.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,6 @@
+{
+  "card": {
+    "type": "AskForPermissionsConsent",
+    "permissions": [ "permission1", "permission2" ]
+  }
+}

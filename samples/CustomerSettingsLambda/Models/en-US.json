@@ -1,0 +1,51 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "customer settings example",
+      "intents": [
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "TimeZoneIntent",
+          "slots": [],
+          "samples": [
+            "What is my timezone"
+          ]
+        },
+        {
+          "name": "DistanceUnitsIntent",
+          "slots": [],
+          "samples": [
+            "What are my distance units"
+          ]
+        },
+        {
+          "name": "TemperatureUnitsIntent",
+          "slots": [],
+          "samples": [
+            "What are my temperature units"
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}

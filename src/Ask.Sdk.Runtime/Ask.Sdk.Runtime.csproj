@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageProjectUrl>https://github.com/captechconsulting/alexa-skills-kit-sdk-for-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/captechconsulting/alexa-skills-kit-sdk-for-dotnet</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>amazon echo alexa skills kit ask sdk runtime</PackageTags>
+    <Description>Runtime package contains generic components and implementations of the ASK SDK for .Net Core.</Description>
+    <Authors>Nick Cipollina</Authors>
+    <Company>CaptechVentures, Inc.</Company>
+    <Product />
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <PackageLicenseUrl>https://github.com/captechconsulting/alexa-skills-kit-for-dot-net/blob/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+
+</Project>
