@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ask.Sdk.Core.Dispatcher.Request.Interceptor
 {
-    public interface IRequestInterceptor : IRequestInterceptor<IHandlerInput>
+    public interface ICustomSkillRequestInterceptor : IRequestInterceptor<IHandlerInput>
     {
     }
 }

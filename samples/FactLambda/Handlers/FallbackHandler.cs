@@ -1,15 +1,12 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using FactLambda.Resources;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FactLambda.Handlers
 {
-    public class FallbackHandler : IRequestHandler
+    public class FallbackHandler : ICustomSkillRequestHandler
     {
         public Task<bool> CanHandle(IHandlerInput input)
         {
@@ -21,7 +18,7 @@ namespace FactLambda.Handlers
             return Task.FromResult(false);
         }
 
-        public Task<Response> Handle(IHandlerInput input)
+        public Task<ResponseBody> Handle(IHandlerInput input)
         {
             return Task.FromResult(input.ResponseBuilder
                 .Speak(LanguageStrings.FallbackMessage)

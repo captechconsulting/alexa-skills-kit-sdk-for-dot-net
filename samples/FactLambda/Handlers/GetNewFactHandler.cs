@@ -1,15 +1,13 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using FactLambda.Resources;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FactLambda.Handlers
 {
-    public class GetNewFactHandler : IRequestHandler
+    public class GetNewFactHandler : ICustomSkillRequestHandler
     {
         private readonly Random _random = new Random();
 
@@ -19,7 +17,7 @@ namespace FactLambda.Handlers
                 (input.RequestEnvelope.Request is IntentRequest intent && intent.Intent.Name == "GetNewFactIntent"));
         }
 
-        public Task<Response> Handle(IHandlerInput input)
+        public Task<ResponseBody> Handle(IHandlerInput input)
         {
             var randomFact = GetRandomFact();
             var speakOutput = string.Format("{0}{1}", LanguageStrings.GetFactMessage, randomFact);

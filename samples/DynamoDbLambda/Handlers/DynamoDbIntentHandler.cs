@@ -1,14 +1,11 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using System.Threading.Tasks;
 
 namespace DynamoDbLambda.Handlers
 {
-    class DynamoDbIntentHandler : IRequestHandler
+    class DynamoDbIntentHandler : ICustomSkillRequestHandler
     {
         public Task<bool> CanHandle(IHandlerInput handlerInput)
         {
@@ -20,7 +17,7 @@ namespace DynamoDbLambda.Handlers
             return Task.FromResult(false);
         }
 
-        public async Task<Response> Handle(IHandlerInput handlerInput)
+        public async Task<ResponseBody> Handle(IHandlerInput handlerInput)
         {
             var attributes = await handlerInput.AttributesManager.GetPersistentAttributes();
             var speechText = $"The last time you used this skill was {attributes["TimeCalled"]}";

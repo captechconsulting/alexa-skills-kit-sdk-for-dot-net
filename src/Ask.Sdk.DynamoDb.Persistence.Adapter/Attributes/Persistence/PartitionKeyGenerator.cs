@@ -1,13 +1,11 @@
-﻿using Ask.Sdk.Model.Request;
+﻿using Alexa.NET.Request;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
 {
     public class PartitionKeyGenerator
     {
-        public static string UserId(RequestEnvelope requestEnvelope)
+        public static string UserId(SkillRequest requestEnvelope)
         {
             var userId = requestEnvelope?.Context?.System?.User?.UserId;
             if (string.IsNullOrEmpty(requestEnvelope?.Context?.System?.User?.UserId))
@@ -18,7 +16,7 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
             return userId;
         }
 
-        public static string DeviceId(RequestEnvelope requestEnvelope)
+        public static string DeviceId(SkillRequest requestEnvelope)
         {
             var deviceId = requestEnvelope?.Context?.System?.Device?.DeviceID;
             if (string.IsNullOrEmpty(deviceId))

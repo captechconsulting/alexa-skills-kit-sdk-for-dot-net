@@ -9,17 +9,17 @@ namespace Ask.Sdk.Asp.Net.Core.Configuration.DependencyInjection.Extensions
 {
     public static class AlexaSkillBuilderExtensionsHandler
     {
-        public static IAlexaSkillBuilder AddRequestHandler<THandler>(this IAlexaSkillBuilder builder) where THandler : class, IRequestHandler
+        public static IAlexaSkillBuilder AddRequestHandler<THandler>(this IAlexaSkillBuilder builder) where THandler : class, ICustomSkillRequestHandler
         {
-            builder.Services.AddScoped<IRequestHandler, THandler>();
+            builder.Services.AddScoped<ICustomSkillRequestHandler, THandler>();
             return builder;
         }
 
         public static IAlexaSkillBuilder AddRequestHandlers(this IAlexaSkillBuilder builder, params Type[] handlers)
         {
-            foreach(var handler in handlers.Where(h => h.GetInterfaces().Any(i => i == typeof(IRequestHandler))))
+            foreach(var handler in handlers.Where(h => h.GetInterfaces().Any(i => i == typeof(ICustomSkillRequestHandler))))
             {
-                builder.Services.AddScoped(typeof(IRequestHandler), handler);
+                builder.Services.AddScoped(typeof(ICustomSkillRequestHandler), handler);
             }
             return builder;
         }

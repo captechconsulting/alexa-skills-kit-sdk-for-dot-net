@@ -1,4 +1,4 @@
-﻿using Ask.Sdk.Model.Request;
+﻿using Alexa.NET.Request;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +8,8 @@ namespace Ask.Sdk.Core.Attributes.Persistence
 {
     public interface IPersistenceAdapter
     {
-        Task<IDictionary<string, object>> GetAttributes(RequestEnvelope requestEnvelope);
+        Task<IDictionary<string, object>> GetAttributes(SkillRequest requestEnvelope);
 
-        Task SaveAttributes(RequestEnvelope requestEnvelope, IDictionary<string, object> attributes);
+        Task SaveAttributes(SkillRequest requestEnvelope, IDictionary<string, object> attributes);
     }
 }

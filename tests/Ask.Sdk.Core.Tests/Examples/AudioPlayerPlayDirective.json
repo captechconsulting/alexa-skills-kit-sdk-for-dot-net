@@ -1,4 +1,5 @@
 {
+  "shouldEndSession": false,
   "directives": [
     {
       "playBehavior": "ENQUEUE",
@@ -13,12 +14,18 @@
           "title": "title",
           "subtitle": "subtitle",
           "art": {
-            "contentDescription": "description",
-            "sources": [ { "url": "fakeUrl.com" } ]
+            "sources": [
+              {
+                "url": "fakeUrl.com"
+              }
+            ]
           },
           "backgroundImage": {
-            "contentDescription": "description",
-            "sources": [ { "url": "fakeUrl.com" } ]
+            "sources": [
+              {
+                "url": "fakeUrl.com"
+              }
+            ]
           }
         }
       },

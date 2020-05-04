@@ -17,7 +17,7 @@ namespace Ask.Sdk.Asp.Net.Core.Configuration
         {
             app.Validate(isDevelopment);
 
-            //app.UseMiddleware<RequestValidationMiddleware>();
+            app.UseMiddleware<RequestValidationMiddleware>();
 
             app.UseMiddleware<BuilderMiddleware>();
 

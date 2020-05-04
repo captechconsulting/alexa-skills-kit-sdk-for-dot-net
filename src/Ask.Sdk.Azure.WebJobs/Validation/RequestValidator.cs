@@ -1,19 +1,15 @@
-﻿using Ask.Sdk.Model.Request;
+﻿using Alexa.NET.Request;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ask.Sdk.Azure.WebJobs.Validation
 {
     public static class RequestValidator
     {
-        public async static Task<RequestEnvelope> ValidateRequest(HttpRequest request)
+        public async static Task<SkillRequest> ValidateRequest(HttpRequest request)
         {
             request.Headers.TryGetValue("SignatureCertChainUrl", out var signatureChainUrl);
             if (string.IsNullOrEmpty(signatureChainUrl))
@@ -44,7 +40,7 @@ namespace Ask.Sdk.Azure.WebJobs.Validation
             if (!valid)
                 return null;
 
-            var requestEnvelope = JsonConvert.DeserializeObject<RequestEnvelope>(body);
+            var requestEnvelope = JsonConvert.DeserializeObject<SkillRequest>(body);
 
             return requestEnvelope;
         }

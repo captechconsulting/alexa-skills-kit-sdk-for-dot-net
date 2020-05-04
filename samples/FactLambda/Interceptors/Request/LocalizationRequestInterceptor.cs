@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FactLambda.Interceptors.Request
 {
-    public class LocalizationRequestInterceptor : IRequestInterceptor
+    public class LocalizationRequestInterceptor : ICustomSkillRequestInterceptor
     {
         public Task Process(IHandlerInput input)
         {

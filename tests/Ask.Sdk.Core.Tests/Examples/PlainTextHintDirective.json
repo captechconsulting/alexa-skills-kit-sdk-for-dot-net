@@ -7,5 +7,6 @@
         "text": "This is plainText hint"
       }
     }
-  ]
+  ],
+  "shouldEndSession": false
 }

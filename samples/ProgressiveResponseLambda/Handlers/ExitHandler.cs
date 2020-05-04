@@ -1,14 +1,11 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using System.Threading.Tasks;
 
 namespace ProgressiveResponseLambda.Handlers
 {
-    public class ExitHandler : IRequestHandler
+    public class ExitHandler : ICustomSkillRequestHandler
     {
         public Task<bool> CanHandle(IHandlerInput input)
         {
@@ -21,7 +18,7 @@ namespace ProgressiveResponseLambda.Handlers
             return Task.FromResult(false);
         }
 
-        public Task<Response> Handle(IHandlerInput input)
+        public Task<ResponseBody> Handle(IHandlerInput input)
         {
             return Task.FromResult(input.ResponseBuilder
                 .Speak("Goodbye")

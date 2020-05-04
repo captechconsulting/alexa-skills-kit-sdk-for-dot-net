@@ -1,16 +1,12 @@
-﻿using Amazon.Lambda.Core;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
 using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DynamoDbLambda.Handlers
 {
-    public class HelloWorldIntentHandler : IRequestHandler
+    public class HelloWorldIntentHandler : ICustomSkillRequestHandler
     {
 
         public Task<bool> CanHandle(IHandlerInput handlerInput)
@@ -23,7 +19,7 @@ namespace DynamoDbLambda.Handlers
             return Task.FromResult(false);
         }
 
-        public async Task<Response> Handle(IHandlerInput handlerInput)
+        public async Task<ResponseBody> Handle(IHandlerInput handlerInput)
         {
             var attributes = await handlerInput.AttributesManager.GetPersistentAttributes();
             attributes["TimeCalled"] = DateTime.Now;

@@ -1,21 +1,19 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProgressiveResponseLambda.Handlers
 {
-    public class SessionEndedRequestHandler : IRequestHandler
+    public class SessionEndedRequestHandler : ICustomSkillRequestHandler
     {
         public Task<bool> CanHandle(IHandlerInput input)
         {
             return Task.FromResult(input.RequestEnvelope.Request is SessionEndedRequest);
         }
 
-        public Task<Response> Handle(IHandlerInput input)
+        public Task<ResponseBody> Handle(IHandlerInput input)
         {
             var request = input.RequestEnvelope.Request as SessionEndedRequest;
             Console.WriteLine($"Session ended with reason: {request.Reason}");

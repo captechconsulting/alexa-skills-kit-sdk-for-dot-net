@@ -3,5 +3,6 @@
     "type": "Standard",
     "title": "Card Title",
     "text": "Card Content"
-  }
+  },
+  "shouldEndSession": false
 }

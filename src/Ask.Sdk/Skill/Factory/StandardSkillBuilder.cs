@@ -1,12 +1,9 @@
-﻿using Amazon.DynamoDBv2;
-using Ask.Sdk.Core.Service;
+﻿using Alexa.NET.Request;
+using Amazon.DynamoDBv2;
 using Ask.Sdk.Core.Skill;
 using Ask.Sdk.Core.Skill.Factory;
 using Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence;
-using Ask.Sdk.Model.Request;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ask.Sdk.Skill.Factory
 {
@@ -14,17 +11,16 @@ namespace Ask.Sdk.Skill.Factory
     {
         private string _tableName = null;
         private bool _autoCreateTable = true;
-        private Func<RequestEnvelope, string> _partitionKeyGenerator = null;
+        private Func<SkillRequest, string> _partitionKeyGenerator = null;
         private AmazonDynamoDBClient _dynamoDBClient;
 
-        public override SkillConfiguration GetSkillConfiguration()
+        public override CustomSkillConfiguration GetSkillConfiguration()
         {
             var skillConfiguration = base.GetSkillConfiguration();
 
             skillConfiguration.PersistenceAdapter = string.IsNullOrEmpty(_tableName) ? null :
                 DynamoDbPersistenceAdapterFactory.Init(_tableName, _dynamoDBClient,
                 createTable: _autoCreateTable, partitionKeyGenerator: _partitionKeyGenerator).Result;
-            skillConfiguration.ApiClient = new DefaultApiClient();
 
             return skillConfiguration;
         }
@@ -43,7 +39,7 @@ namespace Ask.Sdk.Skill.Factory
             return this;
         }
 
-        public StandardSkillBuilder WithPartitionKeyGenerator(Func<RequestEnvelope, string> partitionKeyGenerator)
+        public StandardSkillBuilder WithPartitionKeyGenerator(Func<SkillRequest, string> partitionKeyGenerator)
         {
             _partitionKeyGenerator = partitionKeyGenerator;
 

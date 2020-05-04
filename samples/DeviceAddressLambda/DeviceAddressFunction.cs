@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Ask.Sdk.Core.Skill;
-using Ask.Sdk.Model.Request;
-using Ask.Sdk.Model.Response;
-using Ask.Sdk.Core.Service;
 using Amazon.Lambda.Core;
 using DeviceAddressLambda.Handlers;
+using Alexa.NET.Request;
+using Alexa.NET.Response;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -23,7 +19,7 @@ namespace DeviceAddressLambda
         /// <param name="input"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public async Task<ResponseEnvelope> FunctionHandler(RequestEnvelope request, ILambdaContext context)
+        public async Task<SkillResponse> FunctionHandler(SkillRequest request, ILambdaContext context)
         {
             var builder = SkillBuilders.Custom();
 
@@ -34,7 +30,6 @@ namespace DeviceAddressLambda
                 new SessionEndedRequestHandler(),
                 new FallbackIntentHandler())
                 .AddErrorHandlers(new ServiceErrorHandler())
-                .WithApiClient(new DefaultApiClient())
                 .Execute(request);
         }
     }

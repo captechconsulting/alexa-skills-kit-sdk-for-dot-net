@@ -1,8 +1,8 @@
-﻿using Ask.Sdk.Model.Request;
+﻿using Alexa.NET.APL;
+using Alexa.NET.Request;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Ask.Sdk.Core.Util
 {
@@ -74,22 +74,22 @@ namespace Ask.Sdk.Core.Util
             throw new ArgumentOutOfRangeException(nameof(dpi));
         }
 
-        public static ViewportProfile GetViewportProfile(RequestEnvelope requestEnvelope)
+        public static ViewportProfile GetViewportProfile(APLSkillRequest requestEnvelope)
         {
-            var viewportState = requestEnvelope.Context?.ViewPort;
+            var viewportState = requestEnvelope.Context?.Viewport;
             if (viewportState != null)
             {
                 var currentPixelWidth = viewportState.CurrentPixelWidth;
                 var currentPixelHeight = viewportState.CurrentPixelHeight;
-                var dpi = viewportState.Dpi;
+                var dpi = viewportState.DPI;
 
                 var shape = viewportState.Shape;
-                var viewportOrientation = GetViewportOrientation(currentPixelWidth ?? 0, currentPixelHeight ?? 0);
-                var viewportDpiGroup = GetViewportDpiGroup(dpi ?? 0);
-                var pixelWidthSizeGroup = GetViewportSizeGroup(currentPixelWidth ?? 0);
-                var pixelHeightSizeGroup = GetViewportSizeGroup(currentPixelHeight ?? 0);
+                var viewportOrientation = GetViewportOrientation(currentPixelWidth, currentPixelHeight);
+                var viewportDpiGroup = GetViewportDpiGroup(dpi);
+                var pixelWidthSizeGroup = GetViewportSizeGroup(currentPixelWidth);
+                var pixelHeightSizeGroup = GetViewportSizeGroup(currentPixelHeight);
 
-                if (shape == Shape.Round && 
+                if (shape == ViewportShape.Round && 
                     viewportOrientation == ViewPortOrientation.EQUAL &&
                     viewportDpiGroup == ViewportDpiGroup.LOW && 
                     pixelWidthSizeGroup == ViewportSizeGroup.XSMALL &&
@@ -98,7 +98,7 @@ namespace Ask.Sdk.Core.Util
                     return ViewportProfile.HubRoundSmall;
                 }
 
-                if (shape == Shape.Rectangle &&
+                if (shape == ViewportShape.Rectangle &&
                     viewportOrientation == ViewPortOrientation.LANDSCAPE &&
                     viewportDpiGroup == ViewportDpiGroup.LOW &&
                     (int)pixelWidthSizeGroup <= (int)ViewportSizeGroup.MEDIUM &&
@@ -107,7 +107,7 @@ namespace Ask.Sdk.Core.Util
                     return ViewportProfile.HubLandscapeMedium;
                 }
 
-                if (shape == Shape.Rectangle &&
+                if (shape == ViewportShape.Rectangle &&
                     viewportOrientation == ViewPortOrientation.LANDSCAPE &&
                     viewportDpiGroup == ViewportDpiGroup.LOW &&
                     (int)pixelWidthSizeGroup >= (int)ViewportSizeGroup.LARGE &&
@@ -116,7 +116,7 @@ namespace Ask.Sdk.Core.Util
                     return ViewportProfile.HubLandscapeLarge;
                 }
 
-                if (shape == Shape.Rectangle &&
+                if (shape == ViewportShape.Rectangle &&
                     viewportOrientation == ViewPortOrientation.LANDSCAPE &&
                     viewportDpiGroup == ViewportDpiGroup.MEDIUM &&
                     (int)pixelWidthSizeGroup >= (int)ViewportSizeGroup.MEDIUM &&
@@ -125,7 +125,7 @@ namespace Ask.Sdk.Core.Util
                     return ViewportProfile.MobileLandscapeMedium;
                 }
 
-                if (shape == Shape.Rectangle &&
+                if (shape == ViewportShape.Rectangle &&
                     viewportOrientation == ViewPortOrientation.PORTRAIT &&
                     viewportDpiGroup == ViewportDpiGroup.MEDIUM &&
                     (int)pixelWidthSizeGroup >= (int)ViewportSizeGroup.SMALL &&
@@ -134,7 +134,7 @@ namespace Ask.Sdk.Core.Util
                     return ViewportProfile.MobilePortraitMedium;
                 }
 
-                if (shape == Shape.Rectangle &&
+                if (shape == ViewportShape.Rectangle &&
                     viewportOrientation == ViewPortOrientation.LANDSCAPE &&
                     viewportDpiGroup == ViewportDpiGroup.MEDIUM &&
                     (int)pixelWidthSizeGroup >= (int)ViewportSizeGroup.SMALL &&
@@ -143,7 +143,7 @@ namespace Ask.Sdk.Core.Util
                     return ViewportProfile.MobileLandscapeSmall;
                 }
 
-                if (shape == Shape.Rectangle &&
+                if (shape == ViewportShape.Rectangle &&
                     viewportOrientation == ViewPortOrientation.PORTRAIT &&
                     viewportDpiGroup == ViewportDpiGroup.MEDIUM &&
                     (int)pixelWidthSizeGroup >= (int)ViewportSizeGroup.XSMALL &&
@@ -152,7 +152,7 @@ namespace Ask.Sdk.Core.Util
                     return ViewportProfile.MobilePortraitSmall;
                 }
 
-                if (shape == Shape.Rectangle &&
+                if (shape == ViewportShape.Rectangle &&
                     viewportOrientation == ViewPortOrientation.LANDSCAPE &&
                     (int)viewportDpiGroup >= (int)ViewportDpiGroup.HIGH &&
                     (int)pixelWidthSizeGroup >= (int)ViewportSizeGroup.XLARGE &&
@@ -161,7 +161,7 @@ namespace Ask.Sdk.Core.Util
                     return ViewportProfile.TvLandscapeXLarge;
                 }
 
-                if (shape == Shape.Rectangle &&
+                if (shape == ViewportShape.Rectangle &&
                     viewportOrientation == ViewPortOrientation.PORTRAIT &&
                     (int)viewportDpiGroup >= (int)ViewportDpiGroup.HIGH &&
                     pixelWidthSizeGroup >= ViewportSizeGroup.XSMALL &&
@@ -170,7 +170,7 @@ namespace Ask.Sdk.Core.Util
                     return ViewportProfile.TvPortraitMedium;
                 }
 
-                if (shape == Shape.Rectangle &&
+                if (shape == ViewportShape.Rectangle &&
                     viewportOrientation == ViewPortOrientation.LANDSCAPE &&
                     (int)viewportDpiGroup >= (int)ViewportDpiGroup.HIGH &&
                     pixelWidthSizeGroup >= ViewportSizeGroup.MEDIUM &&

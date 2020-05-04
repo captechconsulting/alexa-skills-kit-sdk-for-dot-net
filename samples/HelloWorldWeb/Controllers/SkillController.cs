@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Alexa.NET.Request;
+using Alexa.NET.Response;
 using Ask.Sdk.Asp.Net.Core.Attributes;
-using Ask.Sdk.Core.Skill;
 using Ask.Sdk.Core.Skill.Factory;
-using Ask.Sdk.Model.Request;
-using Ask.Sdk.Model.Response;
-using HelloWorldWeb.Handlers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelloWorldWeb.Controllers
@@ -26,7 +20,7 @@ namespace HelloWorldWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<ResponseEnvelope> Post([FromBody] RequestEnvelope request)
+        public async Task<SkillResponse> Post([FromBody] SkillRequest request)
         {
             return await _skillBuilder.Execute(request);
         }

@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using Alexa.NET.Response;
 using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Response;
 
 namespace Ask.Sdk.Core.Dispatcher.Request.Interceptor
 {
-    public class FunctionInterceptor : IRequestInterceptor, IResponseInterceptor
+    public class FunctionInterceptor : ICustomSkillRequestInterceptor, ICustomSkillResponseInterceptor
     {
         private readonly Func<IHandlerInput, Task> _requestProcess;
-        private readonly Func<IHandlerInput, Model.Response.Response, Task> _responseProcess;
+        private readonly Func<IHandlerInput, ResponseBody, Task> _responseProcess;
 
-        public FunctionInterceptor(Func<IHandlerInput, Task> requestProcess = null, 
-            Func<IHandlerInput, Model.Response.Response, Task> responseProcess = null)
+        public FunctionInterceptor(Func<IHandlerInput, Task> requestProcess = null,
+            Func<IHandlerInput, ResponseBody, Task> responseProcess = null)
         {
             if (requestProcess != null)
                 _requestProcess = requestProcess;
@@ -27,7 +25,7 @@ namespace Ask.Sdk.Core.Dispatcher.Request.Interceptor
             return _requestProcess(handlerInput);
         }
 
-        public Task Process(IHandlerInput handlerInput, Model.Response.Response response = null)
+        public Task Process(IHandlerInput handlerInput, ResponseBody response = null)
         {
             return _responseProcess(handlerInput, response);
         }

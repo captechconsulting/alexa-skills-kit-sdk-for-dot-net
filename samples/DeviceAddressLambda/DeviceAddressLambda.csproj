@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Ask.Sdk.Core\Ask.Sdk.Core.csproj" />
-    <ProjectReference Include="..\..\src\Ask.Sdk.Model\Ask.Sdk.Model.csproj" />
   </ItemGroup>
 
 </Project>

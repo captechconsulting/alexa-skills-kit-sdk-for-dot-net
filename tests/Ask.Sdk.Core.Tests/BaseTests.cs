@@ -1,14 +1,12 @@
-﻿using Ask.Sdk.Model.Request;
-using Ask.Sdk.Model.Request.Type;
+﻿using Alexa.NET.Request;
+using Alexa.NET.Request.Type;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ask.Sdk.Core.Tests
 {
     public abstract class BaseTests : IDisposable
     {
-        protected RequestEnvelope Request { get; set; }
+        protected SkillRequest Request { get; set; }
 
         protected Slot Slot { get; set; }
 
@@ -16,11 +14,11 @@ namespace Ask.Sdk.Core.Tests
 
         protected BaseTests()
         {
-            Request = new RequestEnvelope
+            Request = new SkillRequest
             {
                 Context = new Context
                 {
-                    System = new SystemState
+                    System = new AlexaSystem
                     {
                         Application = new Application(),
                         Device = new Device(),

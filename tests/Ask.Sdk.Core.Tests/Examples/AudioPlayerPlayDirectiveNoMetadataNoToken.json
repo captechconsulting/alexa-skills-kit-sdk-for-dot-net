@@ -6,10 +6,12 @@
         "stream": {
           "url": "https://url/to/audiosource",
           "token": "audio token",
-          "offsetInMilliseconds": 10000
+          "offsetInMilliseconds": 10000,
+          "expectedPreviousToken": null
         }
       },
       "type": "AudioPlayer.Play"
     }
-  ]
+  ],
+  "shouldEndSession": false
 }

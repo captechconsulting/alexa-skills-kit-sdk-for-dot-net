@@ -1,14 +1,12 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CustomerSettingsLambda.Handlers
 {
-    public class TimeZoneHandler : IRequestHandler
+    public class TimeZoneHandler : ICustomSkillRequestHandler
     {
         public Task<bool> CanHandle(IHandlerInput input)
         {
@@ -20,13 +18,13 @@ namespace CustomerSettingsLambda.Handlers
             return Task.FromResult(false);
         }
 
-        public async Task<Response> Handle(IHandlerInput input)
+        public async Task<ResponseBody> Handle(IHandlerInput input)
         {
             try
             {
                 var client = input.ServiceClientFactory.GetUpsServiceClient();
 
-                var timeZone = await client.GetSystemTimeZone(input.RequestEnvelope?.Context?.System?.Device?.DeviceID);
+                var timeZone = await client.TimeZone();
 
                 return input.ResponseBuilder
                     .Speak($"Your timezone is {timeZone}")

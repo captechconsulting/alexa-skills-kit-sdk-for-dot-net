@@ -1,15 +1,13 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
+﻿using Alexa.NET.Request;
+using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using Ask.Sdk.Core.Attributes.Persistence;
-using Ask.Sdk.Model.Request;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
@@ -21,7 +19,7 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
             string partitionKeyName = "id",
             string attributesName = "attributes",
             bool createTable = true,
-            Func<RequestEnvelope, string> partitionKeyGenerator = null)
+            Func<SkillRequest, string> partitionKeyGenerator = null)
         {
             var adapter = new DynamoDbPersistenceAdapter(tableName,
                 dynamoDBClient,
@@ -69,7 +67,7 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
 
         internal class DynamoDbPersistenceAdapter : IPersistenceAdapter
         {
-            private readonly Func<RequestEnvelope, string> _partitionKeyGenerator;
+            private readonly Func<SkillRequest, string> _partitionKeyGenerator;
             private readonly string _partitionKeyName;
             private readonly string _tableName;
             private readonly string _attributesName;
@@ -80,7 +78,7 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
                 AmazonDynamoDBClient dynamoDBClient,
                 string partitionKeyName,
                 string attributesName,
-                Func<RequestEnvelope, string> partitionKeyGenerator = null)
+                Func<SkillRequest, string> partitionKeyGenerator = null)
             {
                 if (partitionKeyGenerator == null)
                 {
@@ -100,9 +98,9 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
                 };
             }
 
-            public async Task<IDictionary<string, object>> GetAttributes(RequestEnvelope requestEnvelope)
+            public async Task<IDictionary<string, object>> GetAttributes(SkillRequest SkillRequest)
             {
-                var attributesId = _partitionKeyGenerator(requestEnvelope);
+                var attributesId = _partitionKeyGenerator(SkillRequest);
 
                 try
                 {
@@ -121,9 +119,9 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
                 }
             }
 
-            public async Task SaveAttributes(RequestEnvelope requestEnvelope, IDictionary<string, object> attributes)
+            public async Task SaveAttributes(SkillRequest SkillRequest, IDictionary<string, object> attributes)
             {
-                var attributesId = _partitionKeyGenerator(requestEnvelope);
+                var attributesId = _partitionKeyGenerator(SkillRequest);
 
                 var document = new DynamoDbDocument
                 {

@@ -1,19 +1,41 @@
-﻿using Ask.Sdk.Core.Util;
-using Ask.Sdk.Model.Request;
-using Ask.Sdk.Model.Request.Type;
-using Moq;
+﻿using Alexa.NET.APL;
+using Alexa.NET.Request;
+using Alexa.NET.Request.Type;
+using Ask.Sdk.Core.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace Ask.Sdk.Core.Tests.Util
 {
     public class ViewportUtilsTests : BaseTests
     {
+        protected new APLSkillRequest Request { get; set; }
+
         public ViewportUtilsTests() : base()
         {
+            Request = new APLSkillRequest
+            {
+                Context = new APLContext
+                {
+                    System = new AlexaSystem
+                    {
+                        Application = new Application(),
+                        Device = new Device(),
+                        User = new User()
+                    }
+                },
+                Request = new LaunchRequest(),
+                Session = new Session
+                {
+                    Application = new Application(),
+                    New = true,
+                    User = new User
+                    {
+                        Permissions = new Permissions()
+                    }
+                },
+                Version = "1.0"
+            };
         }
 
         [Theory]
@@ -67,28 +89,28 @@ namespace Ask.Sdk.Core.Tests.Util
         }
 
         [Theory]
-        [InlineData(Shape.Round, 300, 300, 160, ViewportProfile.HubRoundSmall)]
-        [InlineData(Shape.Rectangle, 600, 960, 160, ViewportProfile.HubLandscapeMedium)]
-        [InlineData(Shape.Rectangle, 960, 1280, 160, ViewportProfile.HubLandscapeLarge)]
-        [InlineData(Shape.Rectangle, 300, 600, 240, ViewportProfile.MobileLandscapeSmall)]
-        [InlineData(Shape.Rectangle, 600, 300, 240, ViewportProfile.MobilePortraitSmall)]
-        [InlineData(Shape.Rectangle, 600, 960, 240, ViewportProfile.MobileLandscapeMedium)]
-        [InlineData(Shape.Rectangle, 960, 600, 240, ViewportProfile.MobilePortraitMedium)]
-        [InlineData(Shape.Rectangle, 960, 1920, 320, ViewportProfile.TvLandscapeXLarge)]
-        [InlineData(Shape.Rectangle, 1920, 300, 320, ViewportProfile.TvPortraitMedium)]
-        [InlineData(Shape.Rectangle, 600, 960, 320, ViewportProfile.TvLandscapeMedium)]
-        [InlineData(Shape.Round, 600, 600, 240, ViewportProfile.UnkownViewportProfile)]
-        public void Resolve_Viewport_Profile(Shape shape, int currentPixelHeight, int currentPixelWidth, int dpi, ViewportProfile expectedProfile)
+        [InlineData(ViewportShape.Round, 300, 300, 160, ViewportProfile.HubRoundSmall)]
+        [InlineData(ViewportShape.Rectangle, 600, 960, 160, ViewportProfile.HubLandscapeMedium)]
+        [InlineData(ViewportShape.Rectangle, 960, 1280, 160, ViewportProfile.HubLandscapeLarge)]
+        [InlineData(ViewportShape.Rectangle, 300, 600, 240, ViewportProfile.MobileLandscapeSmall)]
+        [InlineData(ViewportShape.Rectangle, 600, 300, 240, ViewportProfile.MobilePortraitSmall)]
+        [InlineData(ViewportShape.Rectangle, 600, 960, 240, ViewportProfile.MobileLandscapeMedium)]
+        [InlineData(ViewportShape.Rectangle, 960, 600, 240, ViewportProfile.MobilePortraitMedium)]
+        [InlineData(ViewportShape.Rectangle, 960, 1920, 320, ViewportProfile.TvLandscapeXLarge)]
+        [InlineData(ViewportShape.Rectangle, 1920, 300, 320, ViewportProfile.TvPortraitMedium)]
+        [InlineData(ViewportShape.Rectangle, 600, 960, 320, ViewportProfile.TvLandscapeMedium)]
+        [InlineData(ViewportShape.Round, 600, 600, 240, ViewportProfile.UnkownViewportProfile)]
+        public void Resolve_Viewport_Profile(ViewportShape shape, int currentPixelHeight, int currentPixelWidth, int dpi, ViewportProfile expectedProfile)
         {
-            Request.Context.ViewPort = new ViewPortState
+            Request.Context.Viewport = new AlexaViewport
             {
-                Experiences = Enumerable.Empty<Experience>(),
-                Keyboard = Enumerable.Empty<Keyboard>(),
-                Touch = Enumerable.Empty<Touch>(),
+                Experiences = Array.Empty<ViewportExperience>(),
+                Keyboard = Array.Empty<string>(),
+                Touch = Array.Empty<string>(),
                 Shape = shape,
                 CurrentPixelHeight = currentPixelHeight,
                 CurrentPixelWidth = currentPixelWidth,
-                Dpi = dpi
+                DPI = dpi
             };
 
             Assert.Equal(expectedProfile, ViewportUtils.GetViewportProfile(Request));

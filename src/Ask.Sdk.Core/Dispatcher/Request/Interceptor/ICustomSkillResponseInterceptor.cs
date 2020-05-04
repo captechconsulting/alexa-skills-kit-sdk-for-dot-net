@@ -1,4 +1,5 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
+﻿using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using Ask.Sdk.Runtime.Dispatcher.Request.Interceptor;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ask.Sdk.Core.Dispatcher.Request.Interceptor
 {
-    public interface IResponseInterceptor : IResponseInterceptor<IHandlerInput, Model.Response.Response>
+    public interface ICustomSkillResponseInterceptor : IResponseInterceptor<IHandlerInput, ResponseBody>
     {
     }
 }

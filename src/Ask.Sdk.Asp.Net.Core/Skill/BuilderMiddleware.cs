@@ -4,12 +4,9 @@ using Ask.Sdk.Core.Dispatcher.Error;
 using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using Ask.Sdk.Core.Dispatcher.Request.Interceptor;
 using Ask.Sdk.Core.Skill.Factory;
-using Ask.Sdk.Model.Service;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ask.Sdk.Asp.Net.Core.Skill
@@ -17,22 +14,26 @@ namespace Ask.Sdk.Asp.Net.Core.Skill
     public class BuilderMiddleware : IMiddleware
     {
         private readonly CustomSkillBuilder _customSkillBuilder;
-        private readonly IEnumerable<IRequestHandler> _requestHandlers;
-        private readonly IEnumerable<IErrorHandler> _errorHandlers;
-        private readonly IEnumerable<IRequestInterceptor> _requestInterceptors;
-        private readonly IEnumerable<IResponseInterceptor> _responseInterceptors;
+        private readonly IEnumerable<ICustomSkillRequestHandler> _requestHandlers;
+        private readonly IEnumerable<ICustomSkillErrorHandler> _errorHandlers;
+        private readonly IEnumerable<ICustomSkillRequestInterceptor> _requestInterceptors;
+        private readonly IEnumerable<ICustomSkillResponseInterceptor> _responseInterceptors;
         private readonly AlexaSkillOptions _alexaSkillOptions;
         private readonly IPersistenceAdapter _persistenceAdapter;
-        private readonly IApiClient _apiClient;
+        private readonly bool _withCanFulfillIntentRequest;
+        private readonly bool _withAPL;
+        private readonly bool _withInSkillPricing;
 
         public BuilderMiddleware(CustomSkillBuilder customSkillkBuilder,
             AlexaSkillOptions alexaSkillOptions = null,
-            IEnumerable<IRequestHandler> requestHandlers = null,
-            IEnumerable<IErrorHandler> errorHandlers = null,
-            IEnumerable<IRequestInterceptor> requestInterceptors = null,
-            IEnumerable<IResponseInterceptor> responseInterceptors = null,
+            IEnumerable<ICustomSkillRequestHandler> requestHandlers = null,
+            IEnumerable<ICustomSkillErrorHandler> errorHandlers = null,
+            IEnumerable<ICustomSkillRequestInterceptor> requestInterceptors = null,
+            IEnumerable<ICustomSkillResponseInterceptor> responseInterceptors = null,
             IPersistenceAdapter persistenceAdapter = null,
-            IApiClient apiClient = null)
+            bool withCanFulfillIntentRequest = false,
+            bool withAPL = false,
+            bool withInSkillPricing = false)
         {
             _customSkillBuilder = customSkillkBuilder;
             _requestHandlers = requestHandlers;
@@ -41,7 +42,9 @@ namespace Ask.Sdk.Asp.Net.Core.Skill
             _requestInterceptors = requestInterceptors;
             _responseInterceptors = responseInterceptors;
             _persistenceAdapter = persistenceAdapter;
-            _apiClient = apiClient;
+            _withCanFulfillIntentRequest = withCanFulfillIntentRequest;
+            _withAPL = withAPL;
+            _withInSkillPricing = withInSkillPricing;
         }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -81,9 +84,19 @@ namespace Ask.Sdk.Asp.Net.Core.Skill
                 _customSkillBuilder.WithPersistenceAdapter(_persistenceAdapter);
             }
 
-            if (_apiClient != null)
+            if (_withCanFulfillIntentRequest)
             {
-                _customSkillBuilder.WithApiClient(_apiClient);
+                _customSkillBuilder.WithCanFulfillIntentRequest();
+            }
+
+            if (_withAPL)
+            {
+                _customSkillBuilder.WithAPL();
+            }
+
+            if (_withInSkillPricing)
+            {
+                _customSkillBuilder.WithInSkillPricing();
             }
 
             await next(context);
