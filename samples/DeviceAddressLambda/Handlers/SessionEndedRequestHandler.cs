@@ -1,21 +1,18 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using System.Threading.Tasks;
 
 namespace DeviceAddressLambda.Handlers
 {
-    public class SessionEndedRequestHandler : IRequestHandler
+    public class SessionEndedRequestHandler : ICustomSkillRequestHandler
     {
         public Task<bool> CanHandle(IHandlerInput handlerInput)
         {
             return Task.FromResult(handlerInput.RequestEnvelope.Request is SessionEndedRequest);
         }
 
-        public Task<Response> Handle(IHandlerInput handlerInput)
+        public Task<ResponseBody> Handle(IHandlerInput handlerInput)
         {
             return Task.FromResult(handlerInput.ResponseBuilder.GetResponse());
         }

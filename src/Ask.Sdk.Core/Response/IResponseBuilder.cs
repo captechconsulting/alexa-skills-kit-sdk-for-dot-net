@@ -1,10 +1,8 @@
-﻿using Ask.Sdk.Model.Request;
-using Ask.Sdk.Model.Response;
-using Ask.Sdk.Model.Response.Directive;
-using Ask.Sdk.Model.Response.Ssml;
-using System;
+﻿using Alexa.NET.Request;
+using Alexa.NET.Response;
+using Alexa.NET.Response.Directive;
+using Alexa.NET.Response.Ssml;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ask.Sdk.Core.Response
 {
@@ -65,6 +63,6 @@ namespace Ask.Sdk.Core.Response
 
         IResponseBuilder AddDirective(IDirective directive);
 
-        Model.Response.Response GetResponse();
+        ResponseBody GetResponse();
     }
 }

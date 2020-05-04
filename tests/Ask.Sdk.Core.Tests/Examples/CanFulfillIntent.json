@@ -1,5 +1,5 @@
 {
-  "canFullfillIntent": {
+  "canFulfillIntent": {
     "canFulfill": "YES",
     "slots": {
       "foo": {
@@ -7,5 +7,6 @@
         "canFulfill": "YES"
       }
     }
-  }
+  },
+  "shouldEndSession": false
 }

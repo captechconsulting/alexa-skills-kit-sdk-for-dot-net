@@ -26,7 +26,7 @@ namespace Ask.Sdk.Azure.WebJobs.Tests
         {
             var attribute = new AlexaSkillAttribute
             {
-                RequestHandlers = new[] { typeof(IRequestHandler) }
+                RequestHandlers = new[] { typeof(ICustomSkillRequestHandler) }
             };
 
             Assert.NotEmpty(attribute.RequestHandlers);
@@ -37,7 +37,7 @@ namespace Ask.Sdk.Azure.WebJobs.Tests
         {
             var attribute = new AlexaSkillAttribute
             {
-                RequestInterceptors = new[] { typeof(IRequestInterceptor) }
+                RequestInterceptors = new[] { typeof(ICustomSkillRequestInterceptor) }
             };
 
             Assert.NotEmpty(attribute.RequestInterceptors);
@@ -48,7 +48,7 @@ namespace Ask.Sdk.Azure.WebJobs.Tests
         {
             var attribute = new AlexaSkillAttribute
             {
-                ResponseInterceptors = new[] { typeof(IResponseInterceptor) }
+                ResponseInterceptors = new[] { typeof(ICustomSkillResponseInterceptor) }
             };
 
             Assert.NotEmpty(attribute.ResponseInterceptors);
@@ -59,7 +59,7 @@ namespace Ask.Sdk.Azure.WebJobs.Tests
         {
             var attribute = new AlexaSkillAttribute
             {
-                ErrorHandlers = new[] { typeof(IErrorHandler) }
+                ErrorHandlers = new[] { typeof(ICustomSkillErrorHandler) }
             };
 
             Assert.NotEmpty(attribute.ErrorHandlers);

@@ -7,5 +7,6 @@
       "smallImageUrl": "https://url-to-small-card-image...",
       "largeImageUrl": "https://url-to-large-card-image..."
     }
-  }
+  },
+  "shouldEndSession": false
 }

@@ -1,15 +1,12 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Directive;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProgressiveResponseLambda.Handlers
 {
-    public class ProgressiveResponseHandler : IRequestHandler
+    public class ProgressiveResponseHandler : ICustomSkillRequestHandler
     {
         public Task<bool> CanHandle(IHandlerInput input)
         {
@@ -17,22 +14,12 @@ namespace ProgressiveResponseLambda.Handlers
                 (input.RequestEnvelope.Request is IntentRequest intent && intent.Intent.Name == "ProgressiveResponseIntent"));
         }
 
-        public async Task<Response> Handle(IHandlerInput input)
+        public async Task<ResponseBody> Handle(IHandlerInput input)
         {
             try
             {
-                var client = input.ServiceClientFactory.GetDirectiveServiceClient();
-
-                var request = new SendDirectiveRequest
-                {
-                    Header = new Header
-                    {
-                        RequestId = input.RequestEnvelope.Request?.RequestId
-                    },
-                    Directive = new SpeakDirective("This is a progressive response message")
-                };
-
-                await client.Enqueue(request);
+                var progressiveResponse = new ProgressiveResponse(input.RequestEnvelope);
+                await progressiveResponse.SendSpeech("This is a progressive response message");
             }
             catch (Exception ex)
             {

@@ -10,16 +10,16 @@ namespace Ask.Sdk.Asp.Net.Core.Configuration.DependencyInjection.Extensions
     public static class AlexaSkillBuilderExtensionsError
     {
         public static IAlexaSkillBuilder AddErrorHandler<THandler>(this IAlexaSkillBuilder builder)
-            where THandler : class, IErrorHandler
+            where THandler : class, ICustomSkillErrorHandler
         {
-            builder.Services.AddScoped<IErrorHandler, THandler>();
+            builder.Services.AddScoped<ICustomSkillErrorHandler, THandler>();
             return builder;
         }
         public static IAlexaSkillBuilder AddErrorHandlers(this IAlexaSkillBuilder builder, params Type[] handlers)
         {
-            foreach (var handler in handlers.Where(h => h.GetInterfaces().Any(i => i == typeof(IErrorHandler))))
+            foreach (var handler in handlers.Where(h => h.GetInterfaces().Any(i => i == typeof(ICustomSkillErrorHandler))))
             {
-                builder.Services.AddScoped(typeof(IErrorHandler), handler);
+                builder.Services.AddScoped(typeof(ICustomSkillErrorHandler), handler);
             }
             return builder;
         }

@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ask.Sdk.Core\Ask.Sdk.Core.csproj" />
-    <ProjectReference Include="..\Ask.Sdk.Model\Ask.Sdk.Model.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Ask.Sdk.Model.Response;
+using Alexa.NET.Response;
 
 namespace Ask.Sdk.Core.Dispatcher.Request.Handler
 {
-    public class FunctionRequestHandler : IRequestHandler
+    public class FunctionRequestHandler : ICustomSkillRequestHandler
     {
         private readonly Func<IHandlerInput, Task<bool>> _canHandle;
-        private readonly Func<IHandlerInput, Task<Model.Response.Response>> _handle;
+        private readonly Func<IHandlerInput, Task<ResponseBody>> _handle;
 
         public FunctionRequestHandler(Func<IHandlerInput, Task<bool>> canHandle,
-            Func<IHandlerInput, Task<Model.Response.Response>> handle)
+            Func<IHandlerInput, Task<ResponseBody>> handle)
         {
             _canHandle = canHandle;
             _handle = handle;
@@ -23,7 +21,7 @@ namespace Ask.Sdk.Core.Dispatcher.Request.Handler
             return _canHandle(handlerInput);
         }
 
-        public Task<Model.Response.Response> Handle(IHandlerInput handlerInput)
+        public Task<ResponseBody> Handle(IHandlerInput handlerInput)
         {
             return _handle(handlerInput);
         }

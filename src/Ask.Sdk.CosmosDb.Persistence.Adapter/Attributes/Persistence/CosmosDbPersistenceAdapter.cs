@@ -1,11 +1,10 @@
-﻿using Ask.Sdk.Core.Attributes.Persistence;
-using Ask.Sdk.Model.Request;
+﻿using Alexa.NET.Request;
+using Ask.Sdk.Core.Attributes.Persistence;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ask.Sdk.CosmosDb.Persistence.Adapter.Attributes.Persistence
@@ -17,7 +16,7 @@ namespace Ask.Sdk.CosmosDb.Persistence.Adapter.Attributes.Persistence
             IDocumentClient documentClient,
             string attributesName = "attributes",
             bool createTable = true,
-            Func<RequestEnvelope,string> partitionKeyGenerator = null)
+            Func<SkillRequest,string> partitionKeyGenerator = null)
         {
             var adapter = new CosmosDbPersistenceAdapter(collectionName,databaseName, documentClient, attributesName,  partitionKeyGenerator);
 
@@ -37,7 +36,7 @@ namespace Ask.Sdk.CosmosDb.Persistence.Adapter.Attributes.Persistence
     internal class CosmosDbPersistenceAdapter : IPersistenceAdapter
     {
         private readonly IDocumentClient _documentClient;
-        private readonly Func<RequestEnvelope, string> _partitionKeyGenerator;
+        private readonly Func<SkillRequest, string> _partitionKeyGenerator;
         private readonly string _databaseName;
         private readonly string _collectionName;
         private readonly string _attributesName;
@@ -47,7 +46,7 @@ namespace Ask.Sdk.CosmosDb.Persistence.Adapter.Attributes.Persistence
             string databaseName,
             IDocumentClient documentClient,
             string attributesName = "attributes",
-            Func<RequestEnvelope, string> partitionKeyGenerator = null)
+            Func<SkillRequest, string> partitionKeyGenerator = null)
         {
             _databaseName = databaseName;
             _collectionName = collectionName;
@@ -63,7 +62,7 @@ namespace Ask.Sdk.CosmosDb.Persistence.Adapter.Attributes.Persistence
             _collectionUri = UriFactory.CreateDocumentCollectionUri(_databaseName, _collectionName);
         }
 
-        public async Task<IDictionary<string, object>> GetAttributes(RequestEnvelope requestEnvelope)
+        public async Task<IDictionary<string, object>> GetAttributes(SkillRequest requestEnvelope)
         {
             var document = await GetExistingDocument(requestEnvelope);
             
@@ -75,7 +74,7 @@ namespace Ask.Sdk.CosmosDb.Persistence.Adapter.Attributes.Persistence
             return document.Attributes;
         }
 
-        public async Task SaveAttributes(RequestEnvelope requestEnvelope, IDictionary<string, object> attributes)
+        public async Task SaveAttributes(SkillRequest requestEnvelope, IDictionary<string, object> attributes)
         {
             var documentId = _partitionKeyGenerator(requestEnvelope);
 
@@ -84,7 +83,7 @@ namespace Ask.Sdk.CosmosDb.Persistence.Adapter.Attributes.Persistence
             await _documentClient.ReplaceDocumentAsync(GenerateDocumentUri(documentId), document: document);
         }
 
-        private async Task<CosmosDbDocument> CreateNewDocument(RequestEnvelope requestEnvelope)
+        private async Task<CosmosDbDocument> CreateNewDocument(SkillRequest requestEnvelope)
         {
             var documentId = _partitionKeyGenerator(requestEnvelope);
 
@@ -104,7 +103,7 @@ namespace Ask.Sdk.CosmosDb.Persistence.Adapter.Attributes.Persistence
             };
         }
 
-        private async Task<CosmosDbDocument> GetExistingDocument(RequestEnvelope requestEnvelope)
+        private async Task<CosmosDbDocument> GetExistingDocument(SkillRequest requestEnvelope)
         {
             var documentId = _partitionKeyGenerator(requestEnvelope);
             CosmosDbDocument document = null;

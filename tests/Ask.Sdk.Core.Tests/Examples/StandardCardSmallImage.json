@@ -4,5 +4,6 @@
     "title": "Card Title",
     "text": "Card Content",
     "image": { "smallImageUrl": "https://url-to-small-card-image..." }
-  }
+  },
+  "shouldEndSession": false
 }

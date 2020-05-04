@@ -4,5 +4,6 @@
       "type": "AudioPlayer.ClearQueue",
       "clearBehavior": "CLEAR_ALL"
     }
-  ]
+  ],
+  "shouldEndSession": false
 }

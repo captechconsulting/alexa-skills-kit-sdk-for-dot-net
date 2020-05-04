@@ -1,16 +1,13 @@
 ﻿using Ask.Sdk.Core.Attributes;
 using Ask.Sdk.Core.Response;
-using Ask.Sdk.Model.Request;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Ask.Sdk.Model.Service;
+using Alexa.NET.Request;
+using Ask.Sdk.Core.Model.Service;
 
 namespace Ask.Sdk.Core.Dispatcher.Request.Handler
 {
     public interface IHandlerInput
     {
-        RequestEnvelope RequestEnvelope { get; set; }
+        SkillRequest RequestEnvelope { get; set; }
 
         object Context { get; set; }
 

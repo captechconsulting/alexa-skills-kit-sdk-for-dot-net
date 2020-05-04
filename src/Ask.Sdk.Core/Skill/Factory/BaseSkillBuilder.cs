@@ -1,9 +1,9 @@
-﻿using Ask.Sdk.Core.Dispatcher.Error;
+﻿using Alexa.NET.Request;
+using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Error;
 using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using Ask.Sdk.Core.Dispatcher.Request.Interceptor;
-using Ask.Sdk.Model.Request;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
 using Ask.Sdk.Runtime.Skill;
 using System;
 using System.Threading.Tasks;
@@ -13,26 +13,26 @@ namespace Ask.Sdk.Core.Skill.Factory
     public abstract class BaseSkillBuilder<TBuilder>
         where TBuilder : BaseSkillBuilder<TBuilder>
     {
-        private RuntimeConfigurationBuilder<IHandlerInput, Model.Response.Response> _runtimeConfigurationBuilder
-            = new RuntimeConfigurationBuilder<IHandlerInput, Model.Response.Response>();
+        private RuntimeConfigurationBuilder<IHandlerInput, ResponseBody> _runtimeConfigurationBuilder
+        = new RuntimeConfigurationBuilder<IHandlerInput, ResponseBody>();
         private string _customUserAgent;
         private string _skillId;
 
-        public TBuilder AddErrorHandler(Func<IHandlerInput, Exception, Task<bool>> matcher, 
-            Func<IHandlerInput, Exception, Task<Model.Response.Response>> executor)
+        public TBuilder AddErrorHandler(Func<IHandlerInput, Exception, Task<bool>> matcher,
+            Func<IHandlerInput, Exception, Task<ResponseBody>> executor)
         {
             _runtimeConfigurationBuilder.AddErrorHandler(matcher, executor);
             return AddErrorHandlers(new FunctionErrorHandler(matcher, executor));
         }
 
-        public TBuilder AddErrorHandlers(params IErrorHandler[] errorHandlers)
+        public TBuilder AddErrorHandlers(params ICustomSkillErrorHandler[] errorHandlers)
         {
-            _runtimeConfigurationBuilder.AddErrorHandlers(errorHandlers);    
+            _runtimeConfigurationBuilder.AddErrorHandlers(errorHandlers);
 
-            return (TBuilder) this;
+            return (TBuilder)this;
         }
 
-        public TBuilder AddRequestHandler(string matcher, Func<IHandlerInput, Task<Model.Response.Response>> executor)
+        public TBuilder AddRequestHandler(string matcher, Func<IHandlerInput, Task<ResponseBody>> executor)
         {
             _runtimeConfigurationBuilder.AddRequestHandler((handlerInput) =>
             {
@@ -44,19 +44,19 @@ namespace Ask.Sdk.Core.Skill.Factory
             return (TBuilder)this;
         }
 
-        public TBuilder AddRequestHandler(Func<IHandlerInput, Task<bool>> matcher, 
-            Func<IHandlerInput, Task<Model.Response.Response>> executor)
+        public TBuilder AddRequestHandler(Func<IHandlerInput, Task<bool>> matcher,
+            Func<IHandlerInput, Task<ResponseBody>> executor)
         {
             _runtimeConfigurationBuilder.AddRequestHandler(matcher, executor);
 
-            return (TBuilder) this;
+            return (TBuilder)this;
         }
 
-        public TBuilder AddRequestHandlers(params IRequestHandler[] requestHandlers)
+        public TBuilder AddRequestHandlers(params ICustomSkillRequestHandler[] requestHandlers)
         {
             _runtimeConfigurationBuilder.AddRequestHandlers(requestHandlers);
 
-            return (TBuilder) this;
+            return (TBuilder)this;
         }
 
         public TBuilder AddRequestInterceptors(params Func<IHandlerInput, Task>[] executors)
@@ -67,25 +67,25 @@ namespace Ask.Sdk.Core.Skill.Factory
             return (TBuilder)this;
         }
 
-        public TBuilder AddRequestInterceptors(params IRequestInterceptor[] executors)
+        public TBuilder AddRequestInterceptors(params ICustomSkillRequestInterceptor[] executors)
         {
             _runtimeConfigurationBuilder.AddRequestInterceptors(executors);
 
-            return (TBuilder) this;
+            return (TBuilder)this;
         }
 
-        public TBuilder AddResponseInterceptors(params Func<IHandlerInput, Model.Response.Response, Task>[] executors)
+        public TBuilder AddResponseInterceptors(params Func<IHandlerInput, ResponseBody, Task>[] executors)
         {
             _runtimeConfigurationBuilder.AddResponseInterceptors(executors);
 
             return (TBuilder)this;
         }
 
-        public TBuilder AddResponseInterceptors(params IResponseInterceptor[] executors)
+        public TBuilder AddResponseInterceptors(params ICustomSkillResponseInterceptor[] executors)
         {
             _runtimeConfigurationBuilder.AddResponseInterceptors(executors);
 
-            return (TBuilder) this;
+            return (TBuilder)this;
         }
 
         public CustomSkill Create()
@@ -93,9 +93,9 @@ namespace Ask.Sdk.Core.Skill.Factory
             return new CustomSkill(GetSkillConfiguration());
         }
 
-        public virtual SkillConfiguration GetSkillConfiguration()
+        public virtual CustomSkillConfiguration GetSkillConfiguration()
         {
-            var runtimeConfiguration = new SkillConfiguration(_runtimeConfigurationBuilder.GetRuntimeConfiguration())
+            var runtimeConfiguration = new CustomSkillConfiguration(_runtimeConfigurationBuilder.GetRuntimeConfiguration())
             {
                 CustomUserAgent = _customUserAgent,
                 SkillId = _skillId
@@ -103,7 +103,7 @@ namespace Ask.Sdk.Core.Skill.Factory
             return runtimeConfiguration;
         }
 
-        public Task<ResponseEnvelope> Execute(RequestEnvelope request, object context = null)
+        public Task<SkillResponse> Execute(SkillRequest request, object context = null)
         {
             var skill = new CustomSkill(GetSkillConfiguration());
 
@@ -115,14 +115,15 @@ namespace Ask.Sdk.Core.Skill.Factory
         {
             _customUserAgent = customUserAgent;
 
-            return (TBuilder) this;
+            return (TBuilder)this;
         }
 
         public TBuilder WithSkillId(string skillId)
         {
             _skillId = skillId;
 
-            return (TBuilder) this;
+            return (TBuilder)this;
         }
+
     }
 }

@@ -1,21 +1,18 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using System.Threading.Tasks;
 
 namespace HelloWorldFunction.Handlers
 {
-    public class LaunchRequestHandler : IRequestHandler
+    public class LaunchRequestHandler : ICustomSkillRequestHandler
     {
         public Task<bool> CanHandle(IHandlerInput input)
         {
             return Task.FromResult(input.RequestEnvelope.Request is LaunchRequest);
         }
 
-        public Task<Response> Handle(IHandlerInput input)
+        public Task<ResponseBody> Handle(IHandlerInput input)
         {
             var speechText = "Welcome to the Alexa Skills Kit, you can say hello";
             return Task.FromResult(input.ResponseBuilder

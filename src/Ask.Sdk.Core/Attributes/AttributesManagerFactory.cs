@@ -1,38 +1,38 @@
-﻿using Ask.Sdk.Core.Attributes.Persistence;
-using Ask.Sdk.Model.Request;
+﻿using Alexa.NET.Request;
+using Ask.Sdk.Core.Attributes.Persistence;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ask.Sdk.Core.Attributes
 {
     public static class AttributesManagerFactory
     {
-        public static IAttributesManager Init(RequestEnvelope requestEnvelope, IPersistenceAdapter persistenceAdapter = null)
+        public static IAttributesManager Init(SkillRequest eventRequest, IPersistenceAdapter persistenceAdapter = null)
         {
-            return new AttributesManager(requestEnvelope, persistenceAdapter);
+            return new AttributesManager(eventRequest, persistenceAdapter);
         }
+
     }
+
     internal class AttributesManager : IAttributesManager
     {
-        private readonly RequestEnvelope _requestEnvelope;
+        private readonly SkillRequest _eventRequest;
         private readonly IPersistenceAdapter _persistenceAdapter;
         private IDictionary<string, object> _requestAttributes = new Dictionary<string, object>();
         private IDictionary<string, object> _sessionAttributes;
         private IDictionary<string, object> _persistentAttributes = new Dictionary<string, object>();
         private bool _persistentAttributeSet = false;
 
-        internal AttributesManager(RequestEnvelope requestEnvelope, IPersistenceAdapter persistenceAdapter = null)
+        internal AttributesManager(SkillRequest eventRequest, IPersistenceAdapter persistenceAdapter = null)
         {
-            _requestEnvelope = requestEnvelope ?? throw new ArgumentNullException(nameof(requestEnvelope));
+            _eventRequest = eventRequest ?? throw new ArgumentNullException(nameof(eventRequest));
             _persistenceAdapter = persistenceAdapter;
-            if (_requestEnvelope.Session != null)
+            if (_eventRequest.Session != null)
             {
-                _sessionAttributes = _requestEnvelope.Session.Attributes ?? new Dictionary<string, object>();
+                _sessionAttributes = _eventRequest.Session.Attributes ?? new Dictionary<string, object>();
             }
         }
-
         public async Task<IDictionary<string, object>> GetPersistentAttributes()
         {
             if (_persistenceAdapter == null)
@@ -42,7 +42,7 @@ namespace Ask.Sdk.Core.Attributes
 
             if (!_persistentAttributeSet)
             {
-                _persistentAttributes = await _persistenceAdapter.GetAttributes(_requestEnvelope);
+                _persistentAttributes = await _persistenceAdapter.GetAttributes(_eventRequest);
                 _persistentAttributeSet = true;
             }
 
@@ -73,7 +73,7 @@ namespace Ask.Sdk.Core.Attributes
 
             if (_persistentAttributeSet)
             {
-                await _persistenceAdapter.SaveAttributes(_requestEnvelope, _persistentAttributes);
+                await _persistenceAdapter.SaveAttributes(_eventRequest, _persistentAttributes);
             }
         }
 

@@ -1,67 +1,59 @@
-﻿using Ask.Sdk.Core.Attributes;
+﻿using Alexa.NET.Request;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Attributes;
 using Ask.Sdk.Core.Attributes.Persistence;
-using Ask.Sdk.Core.Dispatcher;
 using Ask.Sdk.Core.Dispatcher.Request.Handler;
+using Ask.Sdk.Core.Model.Service;
 using Ask.Sdk.Core.Response;
-using Ask.Sdk.Model.Request;
-using Ask.Sdk.Model.Response;
-using Ask.Sdk.Model.Service;
 using Ask.Sdk.Runtime.Dispatcher;
 using Ask.Sdk.Runtime.Skill;
-using Ask.Sdk.Runtime.Util;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ask.Sdk.Core.Skill
 {
-    public class CustomSkill : ISkill<RequestEnvelope, ResponseEnvelope>
+    public class CustomSkill : ISkill<SkillRequest, SkillResponse>
     {
-        protected IRequestDispatcher<IHandlerInput, Model.Response.Response> _requestDispatcher;
+        protected IRequestDispatcher<IHandlerInput, ResponseBody> _requestDispatcher;
         protected IPersistenceAdapter _persistenceAdapter;
-        protected IApiClient _apiClient;
         protected string _customUserAgent;
         protected string _skillId;
 
-        public CustomSkill(SkillConfiguration configuration)
+        public CustomSkill(CustomSkillConfiguration configuration)
         {
             _persistenceAdapter = configuration.PersistenceAdapter;
-            _apiClient = configuration.ApiClient;
             _customUserAgent = configuration.CustomUserAgent;
             _skillId = configuration.SkillId;
 
-            _requestDispatcher = new GenericRequestDispatcher<IHandlerInput, Model.Response.Response>(configuration);
+            _requestDispatcher = new GenericRequestDispatcher<IHandlerInput, ResponseBody>(configuration);
         }
-
-        public async Task<ResponseEnvelope> Invoke(RequestEnvelope requestEnvelope, object context = null)
+        public async Task<SkillResponse> Invoke(SkillRequest eventRequest, object context = null)
         {
-            if (!string.IsNullOrEmpty(_skillId) && requestEnvelope.Context.System.Application.ApplicationId != _skillId)
+            if (!string.IsNullOrEmpty(_skillId) && eventRequest.Context.System.Application.ApplicationId != _skillId)
             {
                 throw new ArgumentException("Skill ID verification failed!");
             }
 
-            ApiConfiguration apiConfiguration = new ApiConfiguration() {ApiClient = _apiClient, ApiEndpoint = requestEnvelope.Context.System.ApiEndpoint, AuthorizationValue = requestEnvelope.Context.System.ApiAccessToken };
-
             var handlerInput = new DefaultHandlerInput
             {
-                RequestEnvelope = requestEnvelope,
+                RequestEnvelope = eventRequest,
                 Context = context,
-                AttributesManager = AttributesManagerFactory.Init(requestEnvelope,
-                _persistenceAdapter),
+                AttributesManager = AttributesManagerFactory.Init(eventRequest, _persistenceAdapter),
                 ResponseBuilder = ResponseFactory.Init(),
-                ServiceClientFactory = _apiClient != null ? new ServiceClientFactory(apiConfiguration) : null
+                ServiceClientFactory = new ServiceClientFactory(eventRequest)
             };
 
             var response = await _requestDispatcher.Dispatch(handlerInput);
 
-            return new ResponseEnvelope
+            return new SkillResponse
             {
                 Version = "1.0",
-                UserAgent = AskSdkUtil.CreateAskSdkUserAgent(Assembly.GetExecutingAssembly().GetName().Version.ToString(), _customUserAgent),
+                //UserAgent = AskSdkUtil.CreateAskSdkUserAgent(Assembly.GetExecutingAssembly().GetName().Version.ToString(), _customUserAgent),
                 Response = response,
-                SessionAttributes = requestEnvelope.Session != null ? (await handlerInput.AttributesManager.GetSessionAttributes()) : null
+                SessionAttributes = eventRequest.Session != null ?
+                    new Dictionary<string, object>((await handlerInput.AttributesManager.GetSessionAttributes())) :
+                    new Dictionary<string, object>()
             };
         }
 

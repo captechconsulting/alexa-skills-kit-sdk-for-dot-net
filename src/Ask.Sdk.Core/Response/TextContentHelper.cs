@@ -1,7 +1,4 @@
-﻿using Ask.Sdk.Model.Response.Directive.Templates;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Alexa.NET.Response.Directive.Templates;
 
 namespace Ask.Sdk.Core.Response
 {
@@ -32,6 +29,6 @@ namespace Ask.Sdk.Core.Response
             return this;
         }
 
-        public abstract TextContent GetTextContent();
+        public abstract TemplateContent GetTextContent();
     }
 }

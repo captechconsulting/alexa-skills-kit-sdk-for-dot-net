@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Alexa.NET.Request;
+using Alexa.NET.Response;
 using Amazon.DynamoDBv2;
 using Amazon.Lambda.Core;
 using Ask.Sdk.Core.Skill;
 using Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence;
-using Ask.Sdk.Model.Request;
-using Ask.Sdk.Model.Response;
 using DynamoDbLambda.Handlers;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -24,7 +21,7 @@ namespace DynamoDbLambda
         /// <param name="input"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public async Task<ResponseEnvelope> FunctionHandler(RequestEnvelope request, ILambdaContext context)
+        public async Task<SkillResponse> FunctionHandler(SkillRequest request, ILambdaContext context)
         {
             var persistenceAdapter = await DynamoDbPersistenceAdapterFactory.Init("DynamoDbLambda", new AmazonDynamoDBClient());
             var builder = SkillBuilders.Custom()

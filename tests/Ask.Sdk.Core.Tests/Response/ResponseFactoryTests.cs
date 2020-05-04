@@ -1,14 +1,13 @@
-﻿using Ask.Sdk.Core.Response;
-using Ask.Sdk.Model.Response;
-using Ask.Sdk.Model.Response.Directive;
-using Ask.Sdk.Model.Response.Directive.Templates;
-using Ask.Sdk.Model.Response.Directive.Templates.Types;
-using Newtonsoft.Json;
+﻿using Alexa.NET.Request;
+using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Alexa.NET.Response.Directive;
+using Alexa.NET.Response.Directive.Templates.Types;
+using Ask.Sdk.Core.Response;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Xunit;
 
 namespace Ask.Sdk.Core.Tests.Response
@@ -98,15 +97,15 @@ namespace Ask.Sdk.Core.Tests.Response
             var slot = Slot;
             slot.Name = "slot1";
             slot.Value = "value1";
-            slot.ConfirmationStatus = Model.Request.IntentConfirmationStatus.None;
+            slot.ConfirmationStatus = "NONE";
 
             var intent = Intent;
             intent.Name = "intentName";
-            intent.Slots = new Dictionary<string, Model.Request.Slot>
+            intent.Slots = new Dictionary<string, Slot>
             {
                 {"slot1", slot }
             };
-            intent.ConfirmationStatus = Model.Request.IntentConfirmationStatus.None;
+            intent.ConfirmationStatus = "NONE";
 
             var response = responseBuilder.AddDelegateDirective(intent).GetResponse();
 
@@ -121,15 +120,15 @@ namespace Ask.Sdk.Core.Tests.Response
             var slot = Slot;
             slot.Name = "slot1";
             slot.Value = "value1";
-            slot.ConfirmationStatus = Model.Request.IntentConfirmationStatus.None;
+            slot.ConfirmationStatus = "NONE";
 
             var intent = Intent;
             intent.Name = "intentName";
-            intent.Slots = new Dictionary<string, Model.Request.Slot>
+            intent.Slots = new Dictionary<string, Slot>
             {
                 {"slot1", slot }
             };
-            intent.ConfirmationStatus = Model.Request.IntentConfirmationStatus.None;
+            intent.ConfirmationStatus = "NONE";
 
             var response = responseBuilder.AddElicitSlotDirective("slotName", intent).GetResponse();
 
@@ -144,15 +143,15 @@ namespace Ask.Sdk.Core.Tests.Response
             var slot = Slot;
             slot.Name = "slot1";
             slot.Value = "value1";
-            slot.ConfirmationStatus = Model.Request.IntentConfirmationStatus.None;
+            slot.ConfirmationStatus = "NONE";
 
             var intent = Intent;
             intent.Name = "intentName";
-            intent.Slots = new Dictionary<string, Model.Request.Slot>
+            intent.Slots = new Dictionary<string, Slot>
             {
                 {"slot1", slot }
             };
-            intent.ConfirmationStatus = Model.Request.IntentConfirmationStatus.None;
+            intent.ConfirmationStatus = "NONE";
 
             var response = responseBuilder.AddConfirmSlotDirective("slotName", intent).GetResponse();
 
@@ -167,15 +166,15 @@ namespace Ask.Sdk.Core.Tests.Response
             var slot = Slot;
             slot.Name = "slot1";
             slot.Value = "value1";
-            slot.ConfirmationStatus = Model.Request.IntentConfirmationStatus.None;
+            slot.ConfirmationStatus = "NONE";
 
             var intent = Intent;
             intent.Name = "intentName";
-            intent.Slots = new Dictionary<string, Model.Request.Slot>
+            intent.Slots = new Dictionary<string, Slot>
             {
                 {"slot1", slot }
             };
-            intent.ConfirmationStatus = Model.Request.IntentConfirmationStatus.None;
+            intent.ConfirmationStatus = "NONE";
 
             var response = responseBuilder.AddConfirmIntentDirective(intent).GetResponse();
 
@@ -194,8 +193,20 @@ namespace Ask.Sdk.Core.Tests.Response
             {
                 Title = "title",
                 Subtitle = "subtitle",
-                Art = new ImageHelper().WithDescription("description").AddImageInstance("fakeUrl.com").Image,
-                BackgroundImage = new ImageHelper().WithDescription("description").AddImageInstance("fakeUrl.com").Image
+                Art = new AudioItemSources
+                {
+                    Sources = new List<AudioItemSource>
+                    {
+                        new AudioItemSource("fakeUrl.com")
+                    }
+                },
+                BackgroundImage = new AudioItemSources
+                {
+                    Sources = new List<AudioItemSource>
+                    {
+                        new AudioItemSource("fakeUrl.com")
+                    }
+                }
             } : null;
 
             var response = responseBuilder.AddAudioPlayerPlayDirective(behavior, audioSource, audioToken, offset, previousToken, metadata)
@@ -233,7 +244,7 @@ namespace Ask.Sdk.Core.Tests.Response
 
             var backgroundImage = new ImageHelper()
                 .WithDescription("description")
-                .AddImageInstance("https://url/to/imagesource", ImageSize.Medium, 100, 100)
+                .AddImageInstance("https://url/to/imagesource", "MEDIUM", 100, 100)
                 .Image;
 
             var textContent = new RichTextContentHelper()
@@ -245,7 +256,7 @@ namespace Ask.Sdk.Core.Tests.Response
             var displayTemplate = new BodyTemplate1
             {
                 Token = "token",
-                BackButton = BackButtonBehavior.Visible,
+                BackButton = "VISIBLE",
                 BackgroundImage = backgroundImage,
                 Title = "title",
                 Content = textContent
@@ -320,16 +331,17 @@ namespace Ask.Sdk.Core.Tests.Response
         [Fact]
         public void Should_Build_Response_With_Can_Fulfill_Intent()
         {
+            CanFulfillIntentRequestConverter.AddToRequestConverter();
             var responseBuilder = ResponseFactory.Init();
             var canFulfillIntent = new CanFulfillIntent
             {
-                CanFulfill = CanFulfillIntentValues.Yes,
-                Slots = new Dictionary<string, CanFulFillSlot>
+                CanFulfill = CanFulfill.YES,
+                Slots = new Dictionary<string, CanfulfillSlot>
                 {
-                    { "foo", new CanFulFillSlot
+                    { "foo", new CanfulfillSlot
                     {
-                        CanUnderstand = CanUnderstandSlotValues.Maybe,
-                        CanFulfill = CanFulfillSlotValues.Yes
+                        CanUnderstand = CanUnderstand.MAYBE,
+                        CanFulfill = SlotCanFulfill.YES
                     }
                     }
                 }
@@ -373,7 +385,7 @@ namespace Ask.Sdk.Core.Tests.Response
             var speechOutput = "HelloWorld!";
             var backgroundImage = new ImageHelper()
                     .WithDescription("description")
-                    .AddImageInstance("https://url/to/imagesource", ImageSize.Medium, 100, 100)
+                    .AddImageInstance("https://url/to/imagesource", "MEDIUM", 100, 100)
                     .Image;
                                                                         ;
             var textContent = new RichTextContentHelper()
@@ -384,7 +396,7 @@ namespace Ask.Sdk.Core.Tests.Response
 
             var displayTemplate = new BodyTemplate1 {
                 Token = "token",
-                BackButton = BackButtonBehavior.Visible,
+                BackButton = "VISIBLE",
                 BackgroundImage = backgroundImage,
                 Title = "title",
                 Content = textContent
@@ -402,7 +414,7 @@ namespace Ask.Sdk.Core.Tests.Response
             Assert.True(CompareJson(response, "TemplateAndHintDirective.json"));
 
             response = ResponseFactory.Init()
-                .AddDirective(new RenderTemplateDirective
+                .AddDirective(new DisplayRenderTemplateDirective
                 {
                     Template = displayTemplate
                 })
@@ -410,6 +422,7 @@ namespace Ask.Sdk.Core.Tests.Response
                 {
                     Hint = new Hint
                     {
+                        Type = "PlainText",
                         Text = hintText
                     }
                 })
@@ -423,6 +436,7 @@ namespace Ask.Sdk.Core.Tests.Response
         public static bool CompareJson(object actual, string expectedFile)
         {
             var actualJObject = JObject.FromObject(actual);
+            var actualString = actualJObject.ToString();
             var expected = File.ReadAllText(Path.Combine(_exampleFolder, expectedFile));
             var expectedJObject = JObject.Parse(expected);
             Console.WriteLine(actualJObject);

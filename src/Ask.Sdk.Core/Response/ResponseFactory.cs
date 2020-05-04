@@ -1,11 +1,11 @@
-﻿using Ask.Sdk.Model.Request;
-using Ask.Sdk.Model.Response;
-using Ask.Sdk.Model.Response.Directive;
-using Ask.Sdk.Model.Response.Ssml;
-using System;
+﻿using Alexa.NET;
+using Alexa.NET.Request;
+using Alexa.NET.Response;
+using Alexa.NET.Response.Directive;
+using Alexa.NET.Response.Ssml;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Xml.Linq;
 
 namespace Ask.Sdk.Core.Response
 {
@@ -19,7 +19,7 @@ namespace Ask.Sdk.Core.Response
 
     internal class ResponseBuilder : IResponseBuilder
     {
-        private Model.Response.Response _response = new Model.Response.Response();
+        private ResponseBody _response = new ResponseBody();
 
         public IResponseBuilder AddAudioPlayerClearQueueDirective(ClearBehavior clearBehavior)
         {
@@ -31,7 +31,7 @@ namespace Ask.Sdk.Core.Response
 
         public IResponseBuilder AddAudioPlayerPlayDirective(PlayBehavior playBehavior, string url, string token, int offsetInMilliseconds, string expectedPreviousToken = null, AudioItemMetadata audioItemMetadata = null)
         {
-            var stream = new Stream
+            var stream = new AudioItemStream
             {
                 Url = url,
                 Token = token,
@@ -51,7 +51,7 @@ namespace Ask.Sdk.Core.Response
                 audioItem.Metadata = audioItemMetadata;
             }
 
-            var playDirective = new PlayDirective
+            var playDirective = new AudioPlayerPlayDirective
             {
                 PlayBehavior = playBehavior,
                 AudioItem = audioItem
@@ -67,7 +67,7 @@ namespace Ask.Sdk.Core.Response
 
         public IResponseBuilder AddConfirmIntentDirective(Intent updatedIntent = null)
         {
-            var confirmIntentDirective = new ConfirmIntentDirective();
+            var confirmIntentDirective = new DialogConfirmIntent();
             if (updatedIntent != null)
             {
                 confirmIntentDirective.UpdatedIntent = updatedIntent;
@@ -78,7 +78,7 @@ namespace Ask.Sdk.Core.Response
 
         public IResponseBuilder AddConfirmSlotDirective(string slotToConfirm, Intent updatedIntent = null)
         {
-            var confirmSlotDirective = new ConfirmSlotDirective(slotToConfirm);
+            var confirmSlotDirective = new DialogConfirmSlot(slotToConfirm);
             if (updatedIntent != null)
             {
                 confirmSlotDirective.UpdatedIntent = updatedIntent;
@@ -89,7 +89,7 @@ namespace Ask.Sdk.Core.Response
 
         public IResponseBuilder AddDelegateDirective(Intent updatedIntent = null)
         {
-            var delegateDirective = new DelegateDirective();
+            var delegateDirective = new DialogDelegate();
 
             if (updatedIntent != null)
             {
@@ -111,7 +111,7 @@ namespace Ask.Sdk.Core.Response
 
         public IResponseBuilder AddElicitSlotDirective(string slotToElicit, Intent updatedIntent = null)
         {
-            var elicitSlotDirective = new ElicitSlotDirective(slotToElicit);
+            var elicitSlotDirective = new DialogElicitSlot(slotToElicit);
 
             if (updatedIntent != null)
             {
@@ -127,6 +127,7 @@ namespace Ask.Sdk.Core.Response
             {
                 Hint = new Hint
                 {
+                    Type = "PlainText",
                     Text = text
                 }
             });
@@ -134,7 +135,7 @@ namespace Ask.Sdk.Core.Response
 
         public IResponseBuilder AddRenderTemplateDirective(ITemplate template)
         {
-            return AddDirective(new RenderTemplateDirective
+            return AddDirective(new DisplayRenderTemplateDirective
             {
                 Template = template
             });
@@ -155,13 +156,13 @@ namespace Ask.Sdk.Core.Response
 
             _response.ShouldEndSession = null;
 
-            return AddDirective(new LaunchDirective
+            return AddDirective(new VideoAppDirective
             {
                 VideoItem = videoItem
             });
         }
 
-        public Model.Response.Response GetResponse()
+        public ResponseBody GetResponse()
         {
             return _response;
         }
@@ -190,7 +191,8 @@ namespace Ask.Sdk.Core.Response
 
         public IResponseBuilder Speak(string speechOutput)
         {
-            return Speak(new PlainText(speechOutput));
+            speechOutput = TrimOutputSpeech(speechOutput);
+            return Speak(new PlainText(speechOutput.Trim()));
         }
 
         public IResponseBuilder Speak(params ISsml[] elements)
@@ -215,7 +217,7 @@ namespace Ask.Sdk.Core.Response
 
         public IResponseBuilder WithCanFulfillIntent(CanFulfillIntent canFulfillIntent)
         {
-            _response.CanFulfillIntent = canFulfillIntent;
+            _response = _response.CanFulfill(canFulfillIntent);
 
             return this;
         }
@@ -256,7 +258,7 @@ namespace Ask.Sdk.Core.Response
 
             if (!string.IsNullOrEmpty(smallImageUrl) || !string.IsNullOrEmpty(largeImageUrl))
             {
-                card.Image = new UiImage
+                card.Image = new CardImage
                 {
                     SmallImageUrl = smallImageUrl,
                     LargeImageUrl = largeImageUrl
@@ -270,19 +272,24 @@ namespace Ask.Sdk.Core.Response
 
         private bool IsVideoAppLaunchDirectivePresent()
         {
-            return _response.Directives?.Any(d => d is LaunchDirective) ?? false;
+            return _response.Directives?.Any(d => d is VideoAppDirective) ?? false;
         }
 
         private string TrimOutputSpeech(string speechOutput)
         {
             if (string.IsNullOrEmpty(speechOutput))
-                return speechOutput;
+                return speechOutput ?? string.Empty;
 
             var speech = speechOutput.Trim();
-            var length = speech.Length;
             if (speech.StartsWith("<speak>") && speech.EndsWith("</speak>"))
             {
-                return speech.Substring(7, length - 8).Trim();
+                try
+                {
+                    return XElement.Parse(speech).Value.Trim();
+                }
+                catch
+                {
+                }
             }
 
             return speech;

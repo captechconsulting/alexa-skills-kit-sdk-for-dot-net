@@ -1,14 +1,12 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CustomerSettingsLambda.Handlers
 {
-    public class DistanceUnitsHandler : IRequestHandler
+    public class DistanceUnitsHandler : ICustomSkillRequestHandler
     {
         public Task<bool> CanHandle(IHandlerInput input)
         {
@@ -20,16 +18,16 @@ namespace CustomerSettingsLambda.Handlers
             return Task.FromResult(false);
         }
 
-        public async Task<Response> Handle(IHandlerInput input)
+        public async Task<ResponseBody> Handle(IHandlerInput input)
         {
             try
             {
                 var client = input.ServiceClientFactory.GetUpsServiceClient();
 
-                var distanceUnits = await client.GetSystemDistanceUnits(input.RequestEnvelope?.Context?.System?.Device?.DeviceID);
+                var distanceUnits = await client.DistanceUnit();
 
                 return input.ResponseBuilder
-                    .Speak($"Your distance unites are {distanceUnits}")
+                    .Speak($"Your distance units are {distanceUnits}")
                     .GetResponse();
             }
             catch (Exception ex)

@@ -1,32 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Ask.Sdk.Model.Response.Directive.Templates;
+﻿using Alexa.NET.Response.Directive.Templates;
 
 namespace Ask.Sdk.Core.Response
 {
     public class RichTextContentHelper : TextContentHelper
     {
-        public override TextContent GetTextContent()
+        public override TemplateContent GetTextContent()
         {
-            var textContent = new TextContent();
+            var textContent = new TemplateContent();
 
             if (!string.IsNullOrEmpty(_primaryText))
-                textContent.Primary = new TextField
+                textContent.Primary = new TemplateText
                 {
                     Type = "RichText",
                     Text = _primaryText
                 };
 
             if (!string.IsNullOrEmpty(_secondaryText))
-                textContent.Secondary = new TextField
+                textContent.Secondary = new TemplateText
                 {
                     Type = "RichText",
                     Text = _secondaryText
                 };
 
             if (!string.IsNullOrEmpty(_tertiaryText))
-                textContent.Tertiary = new TextField
+                textContent.Tertiary = new TemplateText
                 {
                     Type = "RichText",
                     Text = _tertiaryText

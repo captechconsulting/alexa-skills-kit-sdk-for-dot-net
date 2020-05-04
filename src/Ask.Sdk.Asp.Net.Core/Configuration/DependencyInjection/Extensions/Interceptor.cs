@@ -10,35 +10,35 @@ namespace Ask.Sdk.Asp.Net.Core.Configuration.DependencyInjection.Extensions
     public static class AlexaSkillBuilderExtensionsInterceptor
     {
         public static IAlexaSkillBuilder AddRequestInterceptor<TInterceptor>(this IAlexaSkillBuilder builder)
-            where TInterceptor : class, IRequestInterceptor
+            where TInterceptor : class, ICustomSkillRequestInterceptor
         {
-            builder.Services.AddScoped<IRequestInterceptor, TInterceptor>();
+            builder.Services.AddScoped<ICustomSkillRequestInterceptor, TInterceptor>();
 
             return builder;
         }
 
         public static IAlexaSkillBuilder AddRequestInterceptors(this IAlexaSkillBuilder builder, params Type[] handlers)
         {
-            foreach (var handler in handlers.Where(h => h.GetInterfaces().Any(i => i == typeof(IRequestInterceptor))))
+            foreach (var handler in handlers.Where(h => h.GetInterfaces().Any(i => i == typeof(ICustomSkillRequestInterceptor))))
             {
-                builder.Services.AddScoped(typeof(IRequestInterceptor), handler);
+                builder.Services.AddScoped(typeof(ICustomSkillRequestInterceptor), handler);
             }
             return builder;
         }
 
         public static IAlexaSkillBuilder AddResponseInterceptor<TInterceptor>(this IAlexaSkillBuilder builder)
-            where TInterceptor : class, IResponseInterceptor
+            where TInterceptor : class, ICustomSkillResponseInterceptor
         {
-            builder.Services.AddScoped<IResponseInterceptor, TInterceptor>();
+            builder.Services.AddScoped<ICustomSkillResponseInterceptor, TInterceptor>();
 
             return builder;
         }
 
         public static IAlexaSkillBuilder AddResponseInterceptors(this IAlexaSkillBuilder builder, params Type[] handlers)
         {
-            foreach (var handler in handlers.Where(h => h.GetInterfaces().Any(i => i == typeof(IResponseInterceptor))))
+            foreach (var handler in handlers.Where(h => h.GetInterfaces().Any(i => i == typeof(ICustomSkillResponseInterceptor))))
             {
-                builder.Services.AddScoped(typeof(IResponseInterceptor), handler);
+                builder.Services.AddScoped(typeof(ICustomSkillResponseInterceptor), handler);
             }
             return builder;
         }

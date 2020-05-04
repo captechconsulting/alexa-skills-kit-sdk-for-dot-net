@@ -1,20 +1,18 @@
-﻿using Ask.Sdk.Model.Response.Directive.Templates;
-using System;
+﻿using Alexa.NET.Response.Directive.Templates;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ask.Sdk.Core.Response
 {
     public class ImageHelper
     {
-        protected Image _image;
+        protected TemplateImage _image;
 
-        public Image Image
+        public TemplateImage Image
         {
             get
             {
                 if (_image == null)
-                    _image = new Image();
+                    _image = new TemplateImage();
                 return _image;
             }
         }
@@ -26,9 +24,9 @@ namespace Ask.Sdk.Core.Response
             return this;
         }
 
-        public ImageHelper AddImageInstance(string url, ImageSize? size = null, int widthPixels = 0, int heightPixels = 0)
+        public ImageHelper AddImageInstance(string url, string size = null, int widthPixels = 0, int heightPixels = 0)
         {
-            var imageInstance = new ImageInstance
+            var imageInstance = new ImageSource
             {
                 Url = url
             };
@@ -42,7 +40,7 @@ namespace Ask.Sdk.Core.Response
 
             if (Image.Sources == null)
             {
-                Image.Sources = new List<ImageInstance> { imageInstance };
+                Image.Sources = new List<ImageSource> { imageInstance };
             }
             else
             {

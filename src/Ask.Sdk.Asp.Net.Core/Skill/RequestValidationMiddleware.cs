@@ -1,11 +1,9 @@
-﻿using Ask.Sdk.Asp.Net.Core.Configuration.DependencyInjection.Options;
-using Ask.Sdk.Model.Request;
+﻿using Alexa.NET.Request;
+using Ask.Sdk.Asp.Net.Core.Configuration.DependencyInjection.Options;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ask.Sdk.Asp.Net.Core.Skill

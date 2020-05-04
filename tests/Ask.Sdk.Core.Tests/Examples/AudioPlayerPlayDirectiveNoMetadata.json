@@ -12,5 +12,6 @@
       },
       "type": "AudioPlayer.Play"
     }
-  ]
+  ],
+  "shouldEndSession": false
 }

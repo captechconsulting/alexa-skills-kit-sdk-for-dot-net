@@ -1,14 +1,11 @@
-﻿using Ask.Sdk.Core.Dispatcher.Request.Handler;
-using Ask.Sdk.Model.Request.Type;
-using Ask.Sdk.Model.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Alexa.NET.Request.Type;
+using Alexa.NET.Response;
+using Ask.Sdk.Core.Dispatcher.Request.Handler;
 using System.Threading.Tasks;
 
 namespace HelloWorldWeb.Handlers
 {
-    public class CancelAndStopIntentHandler : IRequestHandler
+    public class CancelAndStopIntentHandler : ICustomSkillRequestHandler
     {
         public Task<bool> CanHandle(IHandlerInput handlerInput)
         {
@@ -21,7 +18,7 @@ namespace HelloWorldWeb.Handlers
             return Task.FromResult(false);
         }
 
-        public Task<Response> Handle(IHandlerInput handlerInput)
+        public Task<ResponseBody> Handle(IHandlerInput handlerInput)
         {
             var speechText = "Goodbye";
 
