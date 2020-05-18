@@ -10,11 +10,11 @@ namespace Ask.Sdk.Core.Response
     {
         IResponseBuilder Speak(string speechOutput);
 
-        IResponseBuilder Speak(ISsml[] elements);
+        IResponseBuilder Speak(params ISsml[] elements);
 
         IResponseBuilder Reprompt(string repromptSpeechOutput);
 
-        IResponseBuilder Reprompt(ISsml[] elements);
+        IResponseBuilder Reprompt(params ISsml[] elements);
 
         IResponseBuilder WithSimpleCard(string cardTitle, 
             string cardContent);
