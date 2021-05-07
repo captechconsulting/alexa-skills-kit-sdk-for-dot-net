@@ -18,7 +18,7 @@ namespace Ask.Sdk.Asp.Net.Core.Skill
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            context.Request.EnableRewind();
+            context.Request.EnableBuffering();
 
             // Verify SignatureCertChainUrl is present
             context.Request.Headers.TryGetValue("SignatureCertChainUrl", out var signatureChainUrl);

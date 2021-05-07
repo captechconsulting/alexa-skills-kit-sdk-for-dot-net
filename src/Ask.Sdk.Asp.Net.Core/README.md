@@ -39,7 +39,11 @@ After creating a new ASP.NET Core WebApi solution, you can configure your WebApi
 
 This will register the `CustomSkillBuilder` with your `SkillId` and allow you to add your `IRequestHandler`, `IErrorHandler`, `IRequestInterceptor`, and `IResponseInterceptor` implementations while leveraging ASP.NET Core's built in Dependency Injection framework.
 
-After configuring your Skill, you need to tell your application to use the ASk SDK.  Do this by adding the following in `Configure` before the call to `app.UseMvc()`:
+> This should go before the `services.AddControllers()` call.
+
+> ***Note:*** The ASK SDK requires the Newtonsoft Json parser. You'll need to add the `Microsoft.AspNetCore.Mvc.NewtonsoftJson` package to your project. Then you'll need to update the `AddControllers` call to look like this `services.AddControllers().AddNewtonsoftJson()`.
+
+After configuring your Skill, you need to tell your application to use the ASk SDK.  Do this by adding the following in `Configure` before the call to `app.UseRouting()`:
 
 ```cs
     app.UseAlexaSkill(env.IsDevelopment());
