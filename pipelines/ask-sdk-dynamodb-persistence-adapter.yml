@@ -4,14 +4,14 @@ trigger:
     - master
   paths:
     include:
-    - src/Ask.Sdk.DynamoDb.Persistence.Adapter
+    - src/Ask.Sdk.DynamoDb.Persistence.Adapter/*
 pr:
   branches:
     include:
     - master
   paths:
     include:
-    - src/Ask.Sdk.DynamoDb.Persistence.Adapter
+    - src/Ask.Sdk.DynamoDb.Persistence.Adapter/*
 resources:
   repositories:
   - repository: self
