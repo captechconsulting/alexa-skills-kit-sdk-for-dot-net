@@ -4,14 +4,14 @@ trigger:
     - master
   paths:
     include:
-    - src/Ask.Sdk.Asp.Net.Core
+    - src/Ask.Sdk.Asp.Net.Core/*
 pr:
   branches:
     include:
     - master
   paths:
     include:
-    - src/Ask.Sdk.Asp.Net.Core
+    - src/Ask.Sdk.Asp.Net.Core/*
 resources:
   repositories:
   - repository: self
