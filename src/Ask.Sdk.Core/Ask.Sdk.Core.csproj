@@ -13,14 +13,15 @@
     <VersionPrefix>3.0.1</VersionPrefix>
     <PackageLicenseUrl>https://github.com/captechconsulting/alexa-skills-kit-for-dot-net/blob/master/LICENSE</PackageLicenseUrl>
     <Version>3.0.1</Version>
+    <PackageVersion>3.0.2</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alexa.NET" Version="1.13.3" />
-    <PackageReference Include="Alexa.NET.APL" Version="5.1.1" />
+    <PackageReference Include="Alexa.NET" Version="1.15.0" />
+    <PackageReference Include="Alexa.NET.APL" Version="7.2.0" />
     <PackageReference Include="Alexa.NET.CanFulfillIntentRequest" Version="1.1.0" />
-    <PackageReference Include="Alexa.NET.CustomerProfile" Version="2.1.1" />
-    <PackageReference Include="Alexa.NET.InSkillPricing" Version="3.0.0" />
+    <PackageReference Include="Alexa.NET.InSkillPricing" Version="3.1.0" />
+    <PackageReference Include="Alexa.NET.Profile" Version="1.0.0" />
     <PackageReference Include="Alexa.NET.Settings" Version="1.1.0" />
   </ItemGroup>
 

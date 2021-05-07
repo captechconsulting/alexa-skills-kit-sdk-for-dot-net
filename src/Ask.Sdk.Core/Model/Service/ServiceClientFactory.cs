@@ -1,10 +1,10 @@
 ﻿using Alexa.NET;
-using Alexa.NET.CustomerProfile;
 using Alexa.NET.Request;
 using Alexa.NET.Response;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Alexa.NET.Profile;
 
 namespace Ask.Sdk.Core.Model.Service
 {
