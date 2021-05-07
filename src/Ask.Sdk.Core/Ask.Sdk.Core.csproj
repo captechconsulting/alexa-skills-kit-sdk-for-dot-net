@@ -13,6 +13,7 @@
     <VersionPrefix>3.0.1</VersionPrefix>
     <PackageLicenseUrl>https://github.com/captechconsulting/alexa-skills-kit-for-dot-net/blob/master/LICENSE</PackageLicenseUrl>
     <Version>3.0.1</Version>
+    <PackageVersion>3.0.2</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
