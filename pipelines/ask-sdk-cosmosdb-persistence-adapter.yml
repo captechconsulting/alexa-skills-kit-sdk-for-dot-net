@@ -1,0 +1,53 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/Ask.Sdk.CosmosDb.Persistence.Adapter/*
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/Ask.Sdk.CosmosDb.Persistence.Adapter/*
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: master
+jobs:
+- job: Build
+  displayName: 'Build Ask.Sdk.CosmosDb.Persistence.Adapter'
+  cancelTimeoutInMinutes: 1
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - checkout: self
+    clean: true
+  - task: UseDotNet@2
+    inputs:
+      version: '3.1.x'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet restore
+    inputs:
+      command: restore
+      projects: '**/Ask.Sdk.CosmosDb.Persistence.Adapter.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet build
+    inputs:
+      projects: '**/Ask.Sdk.CosmosDb.Persistence.Adapter.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet test
+    enabled: False
+    inputs:
+      command: test
+      projects: '**/Ask.Sdk.DynamoDb.Persistence.Adapter.Tests.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet pack
+    inputs:
+      command: pack
+      searchPatternPack: '**/Ask.Sdk.CosmosDb.Persistence.Adapter.csproj'
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
