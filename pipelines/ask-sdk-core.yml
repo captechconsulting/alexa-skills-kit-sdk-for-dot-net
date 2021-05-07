@@ -13,8 +13,8 @@ resources:
     type: git
     ref: master
 jobs:
-- job: Phase_1
-  displayName: Agent job 1
+- job: Build
+  displayName: 'Build Ask.Sdk.Core'
   cancelTimeoutInMinutes: 1
   pool:
     vmImage: ubuntu-latest
