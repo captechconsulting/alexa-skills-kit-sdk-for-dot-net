@@ -4,14 +4,14 @@ trigger:
     - master
   paths:
     include:
-    - src/Ask.Sdk.Core
+    - src/Ask.Sdk.Core/*
 pr:
   branches:
     include:
     - master
   paths:
     include:
-    - src/Ask.Sdk.Core
+    - src/Ask.Sdk.Core/*
 resources:
   repositories:
   - repository: self
