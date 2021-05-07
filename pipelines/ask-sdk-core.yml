@@ -1,0 +1,46 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/Ask.Sdk.Core
+pr:
+  - master
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: master
+jobs:
+- job: Phase_1
+  displayName: Agent job 1
+  cancelTimeoutInMinutes: 1
+  pool:
+    name: ubuntu-latest
+  steps:
+  - checkout: self
+  - task: UseDotNet@2
+    inputs:
+      version: '3.1.x'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet restore
+    inputs:
+      command: restore
+      projects: '**/Ask.Sdk.Core.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet build
+    inputs:
+      projects: '**/Ask.Sdk.Core.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet test
+    inputs:
+      command: test
+      projects: '**/Ask.Sdk.Core.Tests.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet pack
+    inputs:
+      command: pack
+      searchPatternPack: '**/Ask.Sdk.Core.csproj'
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
