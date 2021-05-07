@@ -1,0 +1,48 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/Ask.Sdk
+pr:
+  - master
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: master
+jobs:
+- job: Build
+  displayName: 'Build Ask.Sdk'
+  cancelTimeoutInMinutes: 1
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - checkout: self
+    clean: true
+  - task: UseDotNet@2
+    inputs:
+      version: '3.1.x'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet restore
+    inputs:
+      command: restore
+      projects: '**/Ask.Sdk.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet build
+    inputs:
+      projects: '**/Ask.Sdk.csproj'
+      arguments: '--configuration Release --no-restore'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet test
+    inputs:
+      command: test
+      projects: '**/Ask.Sdk.Tests.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet pack
+    inputs:
+      command: pack
+      searchPatternPack: '**/Ask.Sdk.csproj'
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
