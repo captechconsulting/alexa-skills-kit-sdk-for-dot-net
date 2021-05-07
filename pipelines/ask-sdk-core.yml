@@ -6,7 +6,12 @@ trigger:
     include:
     - src/Ask.Sdk.Core
 pr:
-  - master
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/Ask.Sdk.Core
 resources:
   repositories:
   - repository: self
