@@ -6,7 +6,12 @@ trigger:
     include:
     - src/Ask.Sdk.DynamoDb.Persistence.Adapter
 pr:
-  - master
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/Ask.Sdk.DynamoDb.Persistence.Adapter
 resources:
   repositories:
   - repository: self
