@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageProjectUrl>https://github.com/captechconsulting/alexa-skills-kit-sdk-for-dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/captechconsulting/alexa-skills-kit-sdk-for-dotnet</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
@@ -13,10 +13,11 @@
     <VersionPrefix>2.0.0</VersionPrefix>
     <PackageLicenseUrl>https://github.com/captechconsulting/alexa-skills-kit-for-dot-net/blob/master/LICENSE</PackageLicenseUrl>
     <Version>3.0.0</Version>
+    <PackageVersion>3.0.1</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.14.0" />
   </ItemGroup>
 
   <ItemGroup>

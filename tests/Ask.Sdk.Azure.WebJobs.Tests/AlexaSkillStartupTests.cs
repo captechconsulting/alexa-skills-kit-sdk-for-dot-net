@@ -11,7 +11,7 @@ namespace Ask.Sdk.Azure.WebJobs.Tests
     public class AlexaSkillStartupTests
     {
         [Fact]
-        public void Should_Throw_Exception_If_No_Buildewr()
+        public void Should_Throw_Exception_If_No_Builder()
         {
             Assert.Throws<ArgumentNullException>(() => new AlexaSkillStartup().Configure(null));
         }
