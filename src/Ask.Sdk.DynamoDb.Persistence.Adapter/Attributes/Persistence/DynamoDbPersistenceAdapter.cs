@@ -113,7 +113,7 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
 
                     return dbDocument.Attributes;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return new Dictionary<string, object>();
                 }
