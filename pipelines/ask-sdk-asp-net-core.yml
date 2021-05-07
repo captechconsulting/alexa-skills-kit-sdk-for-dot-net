@@ -14,7 +14,7 @@ resources:
     ref: master
 jobs:
 - job: Build
-  displayName: "Build Ask.Sdk.Asp.Net.Core'
+  displayName: 'Build Ask.Sdk.Asp.Net.Core'
   cancelTimeoutInMinutes: 1
   pool:
     vmImage: ubuntu-latest
