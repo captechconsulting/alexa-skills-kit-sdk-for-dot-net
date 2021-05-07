@@ -20,6 +20,7 @@ jobs:
     vmImage: ubuntu-latest
   steps:
   - checkout: self
+    clean: true
   - task: UseDotNet@2
     inputs:
       version: '3.1.x'
@@ -32,6 +33,7 @@ jobs:
     displayName: dotnet build
     inputs:
       projects: '**/Ask.Sdk.Core.csproj'
+      arguments: '--configuration Release --no-restore'
   - task: DotNetCoreCLI@2
     displayName: dotnet test
     inputs:
