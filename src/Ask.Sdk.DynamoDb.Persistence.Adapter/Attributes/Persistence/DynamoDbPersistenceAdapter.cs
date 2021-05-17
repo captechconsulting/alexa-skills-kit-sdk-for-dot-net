@@ -21,12 +21,6 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
             bool createTable = true,
             Func<SkillRequest, string> partitionKeyGenerator = null)
         {
-            var adapter = new DynamoDbPersistenceAdapter(tableName,
-                dynamoDBClient,
-                partitionKeyName,
-                attributesName,
-                partitionKeyGenerator);
-
             if (createTable)
             {
                 var request = new CreateTableRequest
@@ -62,6 +56,13 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
                 // and doesn't need created
                 catch (ResourceInUseException) { }
             }
+
+            var adapter = new DynamoDbPersistenceAdapter(tableName,
+                dynamoDBClient,
+                partitionKeyName,
+                attributesName,
+                partitionKeyGenerator);
+            
             return adapter;
         }
 
