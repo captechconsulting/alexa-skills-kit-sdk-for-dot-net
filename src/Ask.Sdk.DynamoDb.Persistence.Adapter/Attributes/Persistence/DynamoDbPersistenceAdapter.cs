@@ -15,7 +15,7 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
     public static class DynamoDbPersistenceAdapterFactory
     {
         public static async Task<IPersistenceAdapter> Init(string tableName,
-            AmazonDynamoDBClient dynamoDBClient,
+            IAmazonDynamoDB dynamoDBClient,
             string partitionKeyName = "id",
             string attributesName = "attributes",
             bool createTable = true,
@@ -76,7 +76,7 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
             private readonly JsonSerializerSettings _settings;
 
             public DynamoDbPersistenceAdapter(string tableName,
-                AmazonDynamoDBClient dynamoDBClient,
+                IAmazonDynamoDB dynamoDBClient,
                 string partitionKeyName,
                 string attributesName,
                 Func<SkillRequest, string> partitionKeyGenerator = null)
@@ -99,9 +99,9 @@ namespace Ask.Sdk.DynamoDb.Persistence.Adapter.Attributes.Persistence
                 };
             }
 
-            public async Task<IDictionary<string, object>> GetAttributes(SkillRequest SkillRequest)
+            public async Task<IDictionary<string, object>> GetAttributes(SkillRequest skillRequest)
             {
-                var attributesId = _partitionKeyGenerator(SkillRequest);
+                var attributesId = _partitionKeyGenerator(skillRequest);
 
                 try
                 {
