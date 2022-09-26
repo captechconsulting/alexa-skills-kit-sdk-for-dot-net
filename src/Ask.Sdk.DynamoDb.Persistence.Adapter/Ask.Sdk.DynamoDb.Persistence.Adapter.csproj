@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <PackageProjectUrl>https://github.com/captechconsulting/alexa-skills-kit-sdk-for-dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/captechconsulting/alexa-skills-kit-sdk-for-dotnet</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.0.17" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.2.2" />
   </ItemGroup>
 
   <ItemGroup>

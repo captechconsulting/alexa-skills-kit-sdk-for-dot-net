@@ -17,10 +17,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alexa.NET" Version="1.15.0" />
-    <PackageReference Include="Alexa.NET.APL" Version="7.2.0" />
+    <PackageReference Include="Alexa.NET" Version="1.19.0" />
+    <PackageReference Include="Alexa.NET.APL" Version="7.5.0" />
     <PackageReference Include="Alexa.NET.CanFulfillIntentRequest" Version="1.1.0" />
-    <PackageReference Include="Alexa.NET.InSkillPricing" Version="3.1.0" />
+    <PackageReference Include="Alexa.NET.InSkillPricing" Version="3.2.0" />
     <PackageReference Include="Alexa.NET.Profile" Version="1.0.0" />
     <PackageReference Include="Alexa.NET.Settings" Version="1.1.0" />
   </ItemGroup>
